@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\libs\alertifyjs\src\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\controllers\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\core\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\elements\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\helpers\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\platform\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\plugins\plugin.filler\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\scales\" />
+    <Folder Include="wwwroot\assets\libs\chart.js\types\" />
+    <Folder Include="wwwroot\assets\libs\choices.js\public\types\cypress\e2e\" />
+    <Folder Include="wwwroot\assets\libs\choices.js\public\types\cypress\integration\" />
+    <Folder Include="wwwroot\assets\libs\choices.js\public\types\cypress\plugins\" />
+    <Folder Include="wwwroot\assets\libs\choices.js\public\types\cypress\support\" />
+    <Folder Include="wwwroot\assets\libs\choices.js\public\types\src\" />
+    <Folder Include="wwwroot\assets\libs\choices.js\src\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-autofill-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-autofill\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-buttons-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-buttons\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-keytable-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-keytable\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-responsive-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-responsive\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-select-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-select\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net\types\" />
+    <Folder Include="wwwroot\assets\libs\flatpickr\types\" />
+    <Folder Include="wwwroot\assets\libs\flatpickr\utils\" />
+    <Folder Include="wwwroot\assets\libs\gmaps\docs\" />
+    <Folder Include="wwwroot\assets\libs\gmaps\examples\" />
+    <Folder Include="wwwroot\assets\libs\gmaps\test\" />
+    <Folder Include="wwwroot\assets\libs\gulp-rtlcss\node_modules\" />
+    <Folder Include="wwwroot\assets\libs\jquery-sparkline\src\" />
+    <Folder Include="wwwroot\assets\libs\pdfmake\src\" />
+    <Folder Include="wwwroot\assets\libs\rater-js\example\" />
+    <Folder Include="wwwroot\assets\libs\rater-js\test\" />
+    <Folder Include="wwwroot\assets\libs\swiper\types\modules\" />
+    <Folder Include="wwwroot\assets\libs\table-edits\src\" />
+    <Folder Include="wwwroot\assets\libs\twitter-bootstrap-wizard\examples\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+    <PackageReference Include="Refit" Version="7.0.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
+    <PackageReference Include="Refit.Newtonsoft.Json" Version="7.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.1" />
+  </ItemGroup>
+
+</Project>

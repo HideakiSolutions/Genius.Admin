@@ -1,0 +1,336 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    ViewBag.pTitle = "Forms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+
+    <!-- twitter-bootstrap-wizard css -->
+    <link rel="stylesheet" href="/assets/libs/twitter-bootstrap-wizard/prettify.css">
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Customer Register</h4>
+            </div>
+            <div class="card-body">
+                <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                    <ul class="twitter-bs-wizard-nav">
+                        <li class="nav-item">
+                            <a href="#seller-details" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Customer Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#company-document" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Document">
+                                    <i class="bx bx-book-bookmark"></i>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#bank-detail" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Bank Details">
+                                    <i class="bx bxs-bank"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- wizard-nav -->
+                    
+                    
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                        <!-- Customer data-->
+                        <div class="tab-pane" id="seller-details">
+                            <div class="text-center mb-4">
+                                <h5>Customer Details</h5>
+                                <p class="card-title-desc">Fill all information below</p>
+                            </div>
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-firstname-input" class="form-label">First name</label>
+                                            <input type="text" class="form-control" id="basicpill-firstname-input" placeholder="Enter Your First Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-lastname-input" class="form-label">Last name</label>
+                                            <input type="text" class="form-control" id="basicpill-lastname-input" placeholder="Enter Your Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-email-input" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="basicpill-email-input" placeholder="Enter your email">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-birthdate-input" class="form-label">Birth Date</label>
+                                            <input type="text" class="form-control" id="basicpill-birthdate-input" placeholder="Enter your Birth Date">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-mothersname-input" class="form-label">Mothers Name</label>
+                                            <input type="text" class="form-control" id="basicpill-mothersname-input" placeholder="Enter your Mother Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-documenttype-input" class="form-label">Document Type</label>
+                                            <input type="text" class="form-control" id="basicpill-documenttype-input" placeholder="Enter your Document Type">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-cpfcnpj-input" class="form-label">CPF / CNPJ</label>
+                                            <input type="text" class="form-control" id="basicpill-cpfcnpj-input" placeholder="Enter your CPF / CNPJ.">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-occupation-input" class="form-label">Occupation</label>
+                                            <input type="text" class="form-control" id="basicpill-occupation-input" placeholder="Enter your Occupation.">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </form>
+                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                <li class="next">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        Next <i class="bx bx-chevron-right ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- tab pane -->
+                        
+                        <div class="tab-pane" id="company-document">
+                            <div>
+                                <div class="text-center mb-4">
+                                    <h5>Customer Address</h5>
+                                    <p class="card-title-desc">Fill all information below</p>
+                                </div>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="basicpill-street-input" class="form-label">Street</label>
+                                                <input type="text" id="basicpill-street-input" class="form-control" placeholder="Enter your Street Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="mb-3">
+                                                <label for="basicpill-number-input" class="form-label">Number</label>
+                                                <input type="text" id="basicpill-number-input" class="form-control" placeholder="Enter Street Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="mb-3">
+                                                <label for="basicpill-complement-input" class="form-label">Complement</label>
+                                                <input type="text" id="basicpill-complement-input" class="form-control" placeholder="Enter Complement">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="basicpill-district-input" class="form-label">District</label>
+                                                <input type="text" id="basicpill-district-input" class="form-control" placeholder="Enter District">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label for="basicpill-city-input" class="form-label">City</label>
+                                                <input type="text" id="basicpill-city-input" class="form-control" placeholder="Enter City">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label for="basicpill-state-input" class="form-label">State</label>
+                                                <input type="text" id="basicpill-state-input" class="form-control" placeholder="Enter State">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="mb-3">
+                                                <label for="basicpill-zip-input" class="form-label">Zip</label>
+                                                <input type="text" id="basicpill-zip-input" class="form-control" placeholder="Enter Zip">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label for="basicpill-country-input" class="form-label">Country</label>
+                                                <input type="text" id="basicpill-country-input" class="form-control" placeholder="Enter Country">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-left me-1"></i> Previous
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            Next <i class="bx bx-chevron-right ms-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- tab pane -->
+
+                        <div class="tab-pane" id="bank-detail">
+                            <div>
+                                <div class="text-center mb-4">
+                                    <h5>Documents</h5>
+                                    <p class="card-title-desc">Fill all information below</p>
+                                </div>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="basicpill-namecard-input" class="form-label">Declared Income</label>
+                                                <input type="file" class="form-control" id="incomeproof-input" placeholder="Enter your Name on Card">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="basicpill-namecard-input" class="form-label">Address</label>
+                                                <input type="file" class="form-control" id="addressproof-input" placeholder="Enter your Name on Card">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <h6>Image Preview:</h6>
+                                                <img class="img" id="incomeproof" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <h6>Image Preview:</h6>
+                                                <img class="img" id="addressproof" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="basicpill-namecard-input" class="form-label">Document</label>
+                                                <input type="file" class="form-control" id="documentproof-input" placeholder="Enter your Name on Card">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="basicpill-namecard-input" class="form-label">Selfie</label>
+                                                <input type="file" class="form-control" id="selfie-input" placeholder="Enter your Name on Card">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <h6>Image Preview:</h6>
+                                                <img class="img" id="documentproof" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <h6>Image Preview:</h6>
+                                                <img class="img" id="selfie" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-left me-1"></i> Previous
+                                        </a>
+                                    </li>
+                                    <li class="float-end">
+                                        <a href="javascript: void(0);" class="btn btn-primary" data-bs-toggle="modal"
+                                           data-bs-target=".confirmModal">
+                                            Save
+                                            Changes
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- tab pane -->
+                    </div>
+                    <!-- end tab content -->
+                </div>
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+@section externalhtml{
+
+    <!-- Modal -->
+    <div class="modal fade confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bx bx-check-circle display-4 text-success"></i>
+                        </div>
+                        <h5>Confirm Save Changes</h5>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-light w-md" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary w-md" data-bs-dismiss="modal">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
+}
+
+
+@section scripts{
+
+
+    <!-- twitter-bootstrap-wizard js -->
+    <script src="/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="/assets/libs/twitter-bootstrap-wizard/prettify.js"></script>
+
+    <!-- form wizard init -->
+    <script src="/assets/js/pages/form-wizard.init.js"></script>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/pages/customer-register.js"></script>
+}

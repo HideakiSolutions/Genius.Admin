@@ -1,0 +1,887 @@
+﻿@model Admin.Models.CustomerDetailViewModel
+
+@{
+    ViewBag.Title = "Customers";
+    ViewBag.pTitle = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Customer Details";
+}
+
+@section styles {
+
+    <!-- DataTables -->
+    <link href="/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#customer" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                            <span class="d-none d-sm-block">Customer</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#wallets" role="tab">
+                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                            <span class="d-none d-sm-block">Wallets</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#trading" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Trading</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#orders" role="tab">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#activities" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Activities</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content p-3 text-muted">
+                    <div class="tab-pane active" id="customer" role="tabpanel">
+                        <p class="mb-0">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form asp-action="View">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="id" class="control-label"></label>
+                                            <input asp-for="id" class="form-control" />
+                                            <span asp-validation-for="id" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="email" class="control-label"></label>
+                                            <input asp-for="email" class="form-control" />
+                                            <span asp-validation-for="email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="phoneNumber" class="control-label"></label>
+                                            <input asp-for="phoneNumber" class="form-control" />
+                                            <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="lastName" class="control-label"></label>
+                                            <input asp-for="lastName" class="form-control" />
+                                            <span asp-validation-for="lastName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="firstName" class="control-label"></label>
+                                            <input asp-for="firstName" class="form-control" />
+                                            <span asp-validation-for="firstName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="status" class="control-label"></label>
+                                            <input asp-for="status" class="form-control" />
+                                            <span asp-validation-for="status" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="externalId" class="control-label"></label>
+                                            <input asp-for="externalId" class="form-control" />
+                                            <span asp-validation-for="externalId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="kycStatus" class="control-label"></label>
+                                            <input asp-for="kycStatus" class="form-control" />
+                                            <span asp-validation-for="kycStatus" class="text-danger"></span>
+                                        </div>
+                                        </br>
+                                        <div class="form-group">
+                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="wallets" role="tabpanel">
+                        <p class="mb-0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Withdrawal Addresses</h4>
+                                            <p class="card-title-desc">
+                                                List registered withdrawal addresses.
+                                            </p>
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.withdrawalAddresses.FirstOrDefault().id)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.withdrawalAddresses.FirstOrDefault().currency)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.withdrawalAddresses.FirstOrDefault().address)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.withdrawalAddresses.FirstOrDefault().destinationTag)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.withdrawalAddresses.FirstOrDefault().network)
+                                                        </th>
+                                                        <!--
+                                                        <th></th>
+                                                        -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.withdrawalAddresses)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.id)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.currency)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.address)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.destinationTag)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.network)
+                                                            </td>
+                                                            <!--
+                                                            <td>
+                                                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                                            </td>
+                                                            -->
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </br>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">Deposit Addresses</h4>
+                                                        <p class="card-title-desc">
+                                                            List registered deposit addresses.
+                                                        </p>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().id)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().assetId)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().currency)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().address)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().network)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().destinationTag)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().status)
+                                                                    </th>
+                                                                    <th>
+                                                                        @Html.DisplayNameFor(model => model.depositAddresses.FirstOrDefault().signature)
+                                                                    </th>
+                                                                    <!--
+                                                                    <th></th>
+                                                                    -->
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.depositAddresses)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.id)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.assetId)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.currency)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.address)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.network)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.destinationTag)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.status)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.signature)
+                                                                        </td>
+                                                                        <!--
+                                                                        <td>
+                                                                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                                                        </td>
+                                                                        -->
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end cardaa -->
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="trading" role="tabpanel">
+                        <p class="mb-0">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-header align-items-center d-flex">
+                                            <h4 class="card-title mb-0 flex-grow-1">Trading</h4>
+                                            <div class="flex-shrink-0">
+                                                <ul class="nav nav-tabs-custom card-header-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-bs-toggle="tab" href="#buy-tab" role="tab">Buy</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#sell-tab" role="tab">Sell</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div><!-- end card header -->
+
+                                        <div class="card-body">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="buy-tab" role="tabpanel">
+                                                    <div class="float-end ms-2">
+                                                        <h5 class="font-size-14"><i class="bx bx-wallet text-primary font-size-16 align-middle me-1"></i> <a href="#!" class="text-reset text-decoration-underline">@Html.DisplayFor(m => m.available)</a></h5>
+                                                    </div>
+                                                    <h5 class="font-size-14 mb-4">Buy Coins</h5>
+                                                    <div>
+                                                        <div class="form-group mb-3">
+                                                            <label>Payment method :</label>
+                                                            <select class="form-select" disabled>
+                                                                <option>Direct Bank Payment</option>
+                                                                <option>Credit / Debit Card</option>
+                                                                <option>Paypal</option>
+                                                                <option>Payoneer</option>
+                                                                <option>Stripe</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div>
+                                                            <label>Add Amount :</label>
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Amount</label>
+                                                                <select class="form-select" style="max-width: 90px;">
+                                                                    @foreach (var item in Model.tokens)
+                                                                    {
+                                                                        <option value="@Html.DisplayFor(modelItem => item.currency)">@Html.DisplayFor(modelItem => item.alias)</option>
+                                                                    }
+                                                                </select>
+                                                                <input type="text" class="form-control" placeholder="0.00000001">
+                                                            </div>
+
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Price</label>
+                                                                <input type="text" class="form-control" placeholder="$1.000">
+                                                                <label class="input-group-text">$</label>
+                                                            </div>
+
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Total</label>
+                                                                <input type="text" class="form-control" placeholder="$36,854.25">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-success w-md">Buy Coin</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end tab pane -->
+                                                <div class="tab-pane" id="sell-tab" role="tabpanel">
+                                                    <div class="float-end ms-2">
+                                                        <h5 class="font-size-14"><i class="bx bx-wallet text-primary font-size-16 align-middle me-1"></i> <a href="#!" class="text-reset text-decoration-underline">$4235.23</a></h5>
+                                                    </div>
+                                                    <h5 class="font-size-14 mb-4">Sell Coins</h5>
+
+                                                    <div>
+
+                                                        <div class="form-group mb-3">
+                                                            <label>Wallet ID :</label>
+                                                            <!--<input type="email" class="form-control" placeholder="1cvb254ugxvfcd280ki">-->
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Wallet</label>
+
+                                                                <select class="form-select">
+                                                                    @foreach (var item in Model.withdrawalAddresses)
+                                                                    {
+                                                                        <option value="@Html.DisplayFor(modelItem => item.id)">@Html.DisplayFor(modelItem => item.address)</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div>
+                                                            <label>Add Amount :</label>
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Amount</label>
+
+                                                                <select class="form-select" style="max-width: 90px;">
+                                                                    <option value="BT" selected>BTC</option>
+                                                                    <option value="ET">ETH</option>
+                                                                    <option value="LT">LTC</option>
+                                                                </select>
+                                                                <input type="text" class="form-control" placeholder="0.00121255">
+                                                            </div>
+
+                                                            <div class="input-group mb-3">
+
+                                                                <label class="input-group-text">Price</label>
+
+                                                                <input type="text" class="form-control" placeholder="$23,754.25">
+
+                                                                <label class="input-group-text">$</label>
+                                                            </div>
+
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Total</label>
+                                                                <input type="text" class="form-control" placeholder="$6,852.41">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-danger w-md">Sell Coin</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end tab pane -->
+                                            </div>
+                                            <!-- end tab content -->
+                                        </div>
+                                        <!-- end card body -->
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </p>
+                    </div>
+
+                    <div class="tab-pane" id="orders" role="tabpanel">
+                        <p class="mb-0">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-header align-items-center d-flex">
+                                            <h4 class="card-title mb-0 flex-grow-1">Transactions</h4>
+                                            <div class="flex-shrink-0">
+                                                <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-bs-toggle="tab" href="#transactions-all-tab" role="tab">
+                                                            All
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#transactions-buy-tab" role="tab">
+                                                            Buy
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#transactions-sell-tab" role="tab">
+                                                            Sell
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <!-- end nav tabs -->
+                                            </div>
+                                        </div><!-- end card header -->
+
+                                        <div class="card-body px-0">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="transactions-all-tab" role="tabpanel">
+                                                    <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
+                                                        <table class="table align-middle table-nowrap table-borderless">
+                                                            <tbody>
+                                                                @foreach (var item in Model.orders.content)
+                                                                {
+                                                                    <tr>
+                                                                        <td style="width: 50px;">
+
+                                                                            @if (item.side.Equals("SELL"))
+                                                                            {
+                                                                                <div class="font-size-22 text-danger">
+                                                                                    <i class="bx bx-down-arrow-circle d-block"></i>
+                                                                                </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div class="font-size-22 text-success">
+                                                                                    <i class="bx bx-up-arrow-circle d-block"></i>
+                                                                                </div>
+                                                                            }
+
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div>
+                                                                                <h5 class="font-size-14 mb-1">@Html.DisplayFor(modelItem => item.productId)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">@Html.DisplayFor(modelItem => item.createdAt)</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 mb-0">@Html.DisplayFor(modelItem => item.size)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Order Size</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 mb-0">@Html.DisplayFor(modelItem => item.price)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Coin Value</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 text-muted mb-0">@Html.DisplayFor(modelItem => item.amount)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Amount</p>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- end tab pane -->
+                                                <div class="tab-pane" id="transactions-buy-tab" role="tabpanel">
+                                                    <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
+                                                        <table class="table align-middle table-nowrap table-borderless">
+                                                            <tbody>
+                                                                @foreach (var item in Model.orders.content.Where(order => order.side.Equals("BUY")).ToList())
+                                                                {
+                                                                    <tr>
+                                                                        <td style="width: 50px;">
+                                                                            <div class="font-size-22 text-success">
+                                                                                <i class="bx bx-up-arrow-circle d-block"></i>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div>
+                                                                                <h5 class="font-size-14 mb-1">@Html.DisplayFor(modelItem => item.productId)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">@Html.DisplayFor(modelItem => item.createdAt)</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 mb-0">@Html.DisplayFor(modelItem => item.size)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Order Size</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 mb-0">@Html.DisplayFor(modelItem => item.price)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Coin Value</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 text-muted mb-0">@Html.DisplayFor(modelItem => item.amount)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Amount</p>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- end tab pane -->
+                                                <div class="tab-pane" id="transactions-sell-tab" role="tabpanel">
+                                                    <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
+                                                        <table class="table align-middle table-nowrap table-borderless">
+                                                            <tbody>
+                                                                @foreach (var item in Model.orders.content.Where(order => order.side.Equals("SELL")).ToList())
+                                                                {
+                                                                    <tr>
+                                                                        <td style="width: 50px;">
+                                                                            <div class="font-size-22 text-danger">
+                                                                                <i class="bx bx-up-arrow-circle d-block"></i>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div>
+                                                                                <h5 class="font-size-14 mb-1">@Html.DisplayFor(modelItem => item.productId)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">@Html.DisplayFor(modelItem => item.createdAt)</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 mb-0">@Html.DisplayFor(modelItem => item.size)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Order Size</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 mb-0">@Html.DisplayFor(modelItem => item.price)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Coin Value</p>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="text-end">
+                                                                                <h5 class="font-size-14 text-muted mb-0">@Html.DisplayFor(modelItem => item.amount)</h5>
+                                                                                <p class="text-muted mb-0 font-size-12">Amount</p>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <!-- end tab pane -->
+                                            </div>
+                                            <!-- end tab content -->
+                                        </div>
+                                        <!-- end card body -->
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                    
+                    <div class="tab-pane" id="activities" role="tabpanel">
+                        <p class="mb-0">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-header align-items-center d-flex">
+                                            <h4 class="card-title mb-0 flex-grow-1">Recent Activity</h4>
+                                            <div class="flex-shrink-0">
+                                                <select class="form-select form-select-sm mb-0 my-n1">
+                                                    <option value="Today" selected="">Today</option>
+                                                    <option value="Yesterday">Yesterday</option>
+                                                    <option value="Week">Last Week</option>
+                                                    <option value="Month">Last Month</option>
+                                                </select>
+                                            </div>
+                                        </div><!-- end card header -->
+
+                                        <div class="card-body px-0">
+                                            <div class="px-3" data-simplebar style="max-height: 352px;">
+                                                <ul class="list-unstyled activity-wid mb-0">
+
+                                                    <li class="activity-list activity-border">
+                                                        <div class="activity-icon avatar-md">
+                                                            <span class="avatar-title bg-warning-subtle text-warning rounded-circle">
+                                                                <i class="bx bx-bitcoin font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timeline-list-item">
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 overflow-hidden me-4">
+                                                                    <h5 class="font-size-14 mb-1">24/05/2021, 18:24:56</h5>
+                                                                    <p class="text-truncate text-muted font-size-13">0xb77ad0099e21d4fca87fa4ca92dda1a40af9e05d205e53f38bf026196fa2e431</p>
+                                                                </div>
+                                                                <div class="flex-shrink-0 text-end me-3">
+                                                                    <h6 class="mb-1">+0.5 BTC</h6>
+                                                                    <div class="font-size-13">$178.53</div>
+                                                                </div>
+
+                                                                <div class="flex-shrink-0 text-end">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-muted dropdown-toggle font-size-24" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                                            <i class="mdi mdi-dots-vertical"></i>
+                                                                        </a>
+
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="#">Action</a>
+                                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="activity-list activity-border">
+                                                        <div class="activity-icon avatar-md">
+                                                            <span class="avatar-title  bg-primary-subtle text-primary rounded-circle">
+                                                                <i class="mdi mdi-ethereum font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timeline-list-item">
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 overflow-hidden me-4">
+                                                                    <h5 class="font-size-14 mb-1">24/05/2021, 18:24:56</h5>
+                                                                    <p class="text-truncate text-muted font-size-13">0xb77ad0099e21d4fca87fa4ca92dda1a40af9e05d205e53f38bf026196fa2e431</p>
+                                                                </div>
+                                                                <div class="flex-shrink-0 text-end me-3">
+                                                                    <h6 class="mb-1">-20.5 ETH</h6>
+                                                                    <div class="font-size-13">$3541.45</div>
+                                                                </div>
+
+                                                                <div class="flex-shrink-0 text-end">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-muted dropdown-toggle font-size-24" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                                            <i class="mdi mdi-dots-vertical"></i>
+                                                                        </a>
+
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="#">Action</a>
+                                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="activity-list activity-border">
+                                                        <div class="activity-icon avatar-md">
+                                                            <span class="avatar-title bg-warning-subtle text-warning rounded-circle">
+                                                                <i class="bx bx-bitcoin font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timeline-list-item">
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 overflow-hidden me-4">
+                                                                    <h5 class="font-size-14 mb-1">24/05/2021, 18:24:56</h5>
+                                                                    <p class="text-truncate text-muted font-size-13">0xb77ad0099e21d4fca87fa4ca92dda1a40af9e05d205e53f38bf026196fa2e431</p>
+                                                                </div>
+                                                                <div class="flex-shrink-0 text-end me-3">
+                                                                    <h6 class="mb-1">+0.5 BTC</h6>
+                                                                    <div class="font-size-13">$5791.45</div>
+                                                                </div>
+
+                                                                <div class="flex-shrink-0 text-end">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-muted dropdown-toggle font-size-24" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                                            <i class="mdi mdi-dots-vertical"></i>
+                                                                        </a>
+
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="#">Action</a>
+                                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="activity-list activity-border">
+                                                        <div class="activity-icon avatar-md">
+                                                            <span class="avatar-title  bg-primary-subtle text-primary rounded-circle">
+                                                                <i class="mdi mdi-litecoin font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timeline-list-item">
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 overflow-hidden me-4">
+                                                                    <h5 class="font-size-14 mb-1">24/05/2021, 18:24:56</h5>
+                                                                    <p class="text-truncate text-muted font-size-13">0xb77ad0099e21d4fca87fa4ca92dda1a40af9e05d205e53f38bf026196fa2e431</p>
+                                                                </div>
+                                                                <div class="flex-shrink-0 text-end me-3">
+                                                                    <h6 class="mb-1">-1.5 LTC</h6>
+                                                                    <div class="font-size-13">$5791.45</div>
+                                                                </div>
+
+                                                                <div class="flex-shrink-0 text-end">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-muted dropdown-toggle font-size-24" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                                            <i class="mdi mdi-dots-vertical"></i>
+                                                                        </a>
+
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="#">Action</a>
+                                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+
+                                                    <li class="activity-list activity-border">
+                                                        <div class="activity-icon avatar-md">
+                                                            <span class="avatar-title bg-warning-subtle text-warning rounded-circle">
+                                                                <i class="bx bx-bitcoin font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timeline-list-item">
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 overflow-hidden me-4">
+                                                                    <h5 class="font-size-14 mb-1">24/05/2021, 18:24:56</h5>
+                                                                    <p class="text-truncate text-muted font-size-13">0xb77ad0099e21d4fca87fa4ca92dda1a40af9e05d205e53f38bf026196fa2e431</p>
+                                                                </div>
+                                                                <div class="flex-shrink-0 text-end me-3">
+                                                                    <h6 class="mb-1">+0.5 BTC</h6>
+                                                                    <div class="font-size-13">$5791.45</div>
+                                                                </div>
+
+                                                                <div class="flex-shrink-0 text-end">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-muted dropdown-toggle font-size-24" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                                            <i class="mdi mdi-dots-vertical"></i>
+                                                                        </a>
+
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="#">Action</a>
+                                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="activity-list">
+                                                        <div class="activity-icon avatar-md">
+                                                            <span class="avatar-title  bg-primary-subtle text-primary rounded-circle">
+                                                                <i class="mdi mdi-litecoin font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="timeline-list-item">
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 overflow-hidden me-4">
+                                                                    <h5 class="font-size-14 mb-1">24/05/2021, 18:24:56</h5>
+                                                                    <p class="text-truncate text-muted font-size-13">0xb77ad0099e21d4fca87fa4ca92dda1a40af9e05d205e53f38bf026196fa2e431</p>
+                                                                </div>
+                                                                <div class="flex-shrink-0 text-end me-3">
+                                                                    <h6 class="mb-1">+.55 LTC</h6>
+                                                                    <div class="font-size-13">$91.45</div>
+                                                                </div>
+
+                                                                <div class="flex-shrink-0 text-end">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-muted dropdown-toggle font-size-24" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
+                                                                            <i class="mdi mdi-dots-vertical"></i>
+                                                                        </a>
+
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <a class="dropdown-item" href="#">Action</a>
+                                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item" href="#">Separated link</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- end card body -->
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div><!-- end row -->
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section scripts {
+
+
+    <!-- Required datatable js -->
+    <script src="/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="/assets/libs/jszip/jszip.min.js"></script>
+    <script src="/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+    <!-- Responsive examples -->
+    <script src="/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="/assets/js/pages/datatables.init.js"></script>
+
+    <script src="/assets/js/app.js"></script>
+}

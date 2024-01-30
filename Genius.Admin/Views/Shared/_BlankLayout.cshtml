@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("~/Views/Shared/_TitleMeta.cshtml")
+    @RenderSection("styles", false)
+    @Html.Partial("~/Views/Shared/_HeadCSS.cshtml")
+</head>
+<body>
+
+
+    @RenderBody()
+
+
+    @Html.Partial("~/Views/Shared/_VendorScripts.cshtml")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

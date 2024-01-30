@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("~/Views/Shared/_TitleMeta.cshtml")
+    @RenderSection("styles", false)
+    @Html.Partial("~/Views/Shared/_HeadCSS.cshtml")
+</head>
+<body data-layout="horizontal">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        @Html.Partial("~/Views/Shared/_Horizontal.cshtml")
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    @Html.Partial("~/Views/Shared/_PageTitle.cshtml")
+
+                    @RenderBody()
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            @Html.Partial("~/Views/Shared/_Footer.cshtml")
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+    @RenderSection("externalhtml", required: false)
+
+    @Html.Partial("~/Views/Shared/_RightSidebar.cshtml")
+
+    @Html.Partial("~/Views/Shared/_VendorScripts.cshtml")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

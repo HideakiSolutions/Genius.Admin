@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Admin.Models.CustomerViewModel>
+
+@{
+    ViewBag.Title = "Customers";
+    ViewBag.pTitle = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+@section styles{
+
+    <!-- DataTables -->
+    <link href="/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Customers</h4>
+                <p class="card-title-desc">
+                    List registered customers.
+                </p>
+            </div>
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>ExternalId</th>
+                            <th>FirstName</th>
+                            <th>LastName</th>
+                            <th>Email</th>
+                            <th>PhoneNumber</th>
+                            <th>Status</th>
+                            <th>KYC Status</th>
+                            <th>-</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.externalId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.firstName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.lastName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.email)</td>
+                                <td>@Html.DisplayFor(modelItem => item.phoneNumber)</td>
+                                <td>@Html.DisplayFor(modelItem => item.status)</td>
+                                <td>@Html.DisplayFor(modelItem => item.kycStatus)</td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new { id=item.id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end cardaa -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+
+@section scripts{
+
+
+    <!-- Required datatable js -->
+    <script src="/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="/assets/libs/jszip/jszip.min.js"></script>
+    <script src="/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+    <!-- Responsive examples -->
+    <script src="/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="/assets/js/pages/datatables.init.js"></script>
+
+    <script src="/assets/js/app.js"></script>
+}
