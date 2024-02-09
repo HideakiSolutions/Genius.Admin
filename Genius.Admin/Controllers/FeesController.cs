@@ -11,7 +11,8 @@ namespace Admin.Controllers
         // GET: FeesController
         public ActionResult Index()
         {
-            FeeViewModel contatos = null;
+            IEnumerable<TokenViewModel> tokens = null;
+            List<FeeViewModel> fees = new List<FeeViewModel>();
 
             using (var client = new HttpClient())
             {
@@ -19,23 +20,54 @@ namespace Admin.Controllers
                 client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
-                var responseTask = client.GetAsync("tokens/withdrawal-fee?currency=ETH&network=Ethereum");
+                var responseTask = client.GetAsync("tokens");
                 responseTask.Wait();
                 var result = responseTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = JsonSerializer.DeserializeAsync<FeeViewModel>(result.Content.ReadAsStreamAsync().Result);
+                    var readTask = JsonSerializer.DeserializeAsync<IList<TokenViewModel>>(result.Content.ReadAsStreamAsync().Result);
                     //readTask.Wait();
-                    contatos = readTask.Result;
+                    tokens = readTask.Result;
                 }
                 else
                 {
-                    contatos = new FeeViewModel();
+                    tokens = Enumerable.Empty<TokenViewModel>();
                     ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
                 }
-                return View(contatos);
             }
+
+            
+            if(tokens.Count() > 0)
+            {
+                foreach (TokenViewModel token in tokens)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                        client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                        //HTTP GET
+                        var responseTask = client.GetAsync($"tokens/withdrawal-fee?currency={token.currency}&network={token.network}");
+                        responseTask.Wait();
+                        var result = responseTask.Result;
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            var readTask = JsonSerializer.DeserializeAsync<FeeViewModel>(result.Content.ReadAsStreamAsync().Result);
+                            //readTask.Wait();
+                            fees.Add(readTask.Result);
+                        }
+                        else
+                        {
+                            //contatos = new FeeViewModel();
+                            ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                        }
+                    }
+                }
+            }
+
+            return View(fees);
         }
 
         // GET: FeesController/Details/5

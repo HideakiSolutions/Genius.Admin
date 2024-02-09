@@ -15,7 +15,7 @@
         public IEnumerable<TokenViewModel> tokens { get; set; }
         public IEnumerable<WithdrawalAddressViewModel> withdrawalAddresses { get; set; }
         public IEnumerable<DepositAddressViewModel> depositAddresses { get; set; }
-
+        public IEnumerable<FiatDepositViewModel> depositInformations { get; set; }
         public string available {  get; set; }
 
     }

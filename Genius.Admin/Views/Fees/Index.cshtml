@@ -1,4 +1,4 @@
-﻿@model Admin.Models.FeeViewModel
+﻿@model IEnumerable<Admin.Models.FeeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,7 +21,7 @@
             <div class="card-header">
                 <h4 class="card-title">Customers</h4>
                 <p class="card-title-desc">
-                    List registered customers.
+                    List all registered fees.
                 </p>
             </div>
             <div class="card-body">
@@ -35,12 +35,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var item in Model) 
+                        {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => modelItem.currency)</td>
-                            <td>@Html.DisplayFor(modelItem => modelItem.network)</td>
-                            <td>@Html.DisplayFor(modelItem => modelItem.fee)</td>
-                            <td>@Html.DisplayFor(modelItem => modelItem.timestamp)</td>
+                            <td>@Html.DisplayFor(modelItem => item.currency)</td>
+                            <td>@Html.DisplayFor(modelItem => item.network)</td>
+                            <td>@Html.DisplayFor(modelItem => item.fee)</td>
+                            <td>@Html.DisplayFor(modelItem => item.dateTime)</td>
                         </tr>
+                        }
                     </tbody>
                 </table>
             </div>

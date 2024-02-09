@@ -33,6 +33,12 @@ builder.Services.AddRefitClient<IApiLoginService>()
 
 builder.Services.AddScoped<HeaderTokenHandler>();
 
+builder.Services.AddRefitClient<IApiRegisterCustomerService>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrl))
+    .AddHttpMessageHandler<HeaderTokenHandler>();
+
+builder.Services.AddScoped<HeaderTokenHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -104,11 +104,40 @@
                                             <span asp-validation-for="kycStatus" class="text-danger"></span>
                                         </div>
                                         </br>
-                                        <div class="form-group">
+@*                                         <div class="form-group">
                                             <input type="submit" value="Save" class="btn btn-primary" />
-                                        </div>
+                                        </div> *@
                                     </form>
+                                    @if (Model.depositInformations.Count() > 0)
+                                    {
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Show Pix QrCode
+                                        </button>
+
+                                        <!-- Static Backdrop Modal -->
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Pix QrCode</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @if (Model.depositInformations.Count() > 0)
+                                                        {
+                                                            <img id="pixQr" src="@Html.DisplayFor(modelItem => modelItem.depositInformations.ToList()[0].QrCodeImage)" alt="PixQrCode" class="text-center">
+                                                        }
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                        @* <button type="button" class="btn btn-primary">Understood</button> *@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
+
                             </div>
                         </p>
                     </div>
@@ -297,6 +326,7 @@
                                                     </div>
                                                     <h5 class="font-size-14 mb-4">Buy Coins</h5>
                                                     <div>
+                                                        <!--
                                                         <div class="form-group mb-3">
                                                             <label>Payment method :</label>
                                                             <select class="form-select" disabled>
@@ -307,29 +337,38 @@
                                                                 <option>Stripe</option>
                                                             </select>
                                                         </div>
-
+                                                        -->
                                                         <div>
                                                             <label>Add Amount :</label>
                                                             <div class="input-group mb-3">
-                                                                <label class="input-group-text">Amount</label>
-                                                                <select class="form-select" style="max-width: 90px;">
-                                                                    @foreach (var item in Model.tokens)
-                                                                    {
-                                                                        <option value="@Html.DisplayFor(modelItem => item.currency)">@Html.DisplayFor(modelItem => item.alias)</option>
-                                                                    }
+                                                                @*
+                                                                    <select class="form-select" style="max-width: 90px;">
+                                                                        @foreach (var item in Model.tokens)
+                                                                        {
+                                                                            <option value="@Html.DisplayFor(modelItem => item.currency)">@Html.DisplayFor(modelItem => item.alias)</option>
+                                                                        }
+                                                                    </select>
+                                                                @Html.DropDownList("Balances", new SelectList(Model.balances.Select(item => item.currency)), "-- Select Token --", new { @class = "form-control" })
+                                                                *@
+                                                                <label class="input-group-text">Fiat</label>
+                                                                <select id="select-buybalance" class="form-select" style="max-width: 90px;">
+                                                                @foreach (var item in Model.balances)
+                                                                {
+                                                                        <option value=@item.balance>@Html.DisplayFor(modelItem => item.currency)</option>
+                                                                }
                                                                 </select>
-                                                                <input type="text" class="form-control" placeholder="0.00000001">
+                                                                <input id="buy-balance" type="text" class="form-control" placeholder="0.00000001">
                                                             </div>
 
                                                             <div class="input-group mb-3">
                                                                 <label class="input-group-text">Price</label>
-                                                                <input type="text" class="form-control" placeholder="$1.000">
+                                                                <input id="buy-price" type="text" class="form-control" placeholder="$1.000">
                                                                 <label class="input-group-text">$</label>
                                                             </div>
 
                                                             <div class="input-group mb-3">
                                                                 <label class="input-group-text">Total</label>
-                                                                <input type="text" class="form-control" placeholder="$36,854.25">
+                                                                <input disabled id="buy-total-amount" type="text" class="form-control" placeholder="$0,000.00">
                                                             </div>
                                                         </div>
 
@@ -337,6 +376,8 @@
                                                             <button type="button" class="btn btn-success w-md">Buy Coin</button>
                                                         </div>
                                                     </div>
+
+
                                                 </div>
                                                 <!-- end tab pane -->
                                                 <div class="tab-pane" id="sell-tab" role="tabpanel">
@@ -356,7 +397,7 @@
                                                                 <select class="form-select">
                                                                     @foreach (var item in Model.withdrawalAddresses)
                                                                     {
-                                                                        <option value="@Html.DisplayFor(modelItem => item.id)">@Html.DisplayFor(modelItem => item.address)</option>
+                                                                        <option value="@Html.DisplayFor(modelItem => item.id)" >@Html.DisplayFor(modelItem => item.address)</option>
                                                                     }
                                                                 </select>
                                                             </div>
@@ -365,28 +406,29 @@
                                                         <div>
                                                             <label>Add Amount :</label>
                                                             <div class="input-group mb-3">
-                                                                <label class="input-group-text">Amount</label>
 
-                                                                <select class="form-select" style="max-width: 90px;">
-                                                                    <option value="BT" selected>BTC</option>
-                                                                    <option value="ET">ETH</option>
-                                                                    <option value="LT">LTC</option>
+                                                               <label class="input-group-text">Tokens</label>
+                                                                <select id="select-sellbalance" class="form-select" style="max-width: 90px;">
+                                                                @foreach (var item in Model.balances)
+                                                                {
+                                                                        <option value=@item.balance>@Html.DisplayFor(modelItem => item.currency)</option>
+                                                                }
                                                                 </select>
-                                                                <input type="text" class="form-control" placeholder="0.00121255">
+                                                                <input id="sell-balance" type="text" class="form-control" placeholder="0.00000001">
                                                             </div>
 
                                                             <div class="input-group mb-3">
 
                                                                 <label class="input-group-text">Price</label>
 
-                                                                <input type="text" class="form-control" placeholder="$23,754.25">
+                                                                <input type="text" class="form-control" id="sell-price" placeholder="$0,000.00">
 
                                                                 <label class="input-group-text">$</label>
                                                             </div>
 
                                                             <div class="input-group mb-3">
                                                                 <label class="input-group-text">Total</label>
-                                                                <input type="text" class="form-control" placeholder="$6,852.41">
+                                                                <input id="sell-total-amount" type="text" class="form-control" placeholder="$0,000.00">
                                                             </div>
                                                         </div>
 
@@ -859,7 +901,6 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
 @section scripts {
 
 
@@ -884,4 +925,14 @@
     <script src="/assets/js/pages/datatables.init.js"></script>
 
     <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/pages/customer-detail.js"></script>
+
+    <script>
+        function handleProductChange(balance) 
+        {
+            console.log(balance);
+            document.getElementById("sell-amount").innerHTML = balance;
+        }
+
+    </script>
 }
