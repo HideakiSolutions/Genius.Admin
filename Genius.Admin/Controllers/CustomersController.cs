@@ -69,6 +69,8 @@ namespace Admin.Controllers
                 "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE"
             };
 
+            //return RedirectToAction("Index", "Dashboard");
+
             return View();
         }
 
@@ -105,6 +107,16 @@ namespace Admin.Controllers
         // GET: CustomerController/Details/5
         public ActionResult Details(string id)
         {
+            ViewBag.Networks = new List<string>()
+            {
+                "Ethereum", "Stellar", "Tron", "Bitcoin"
+            };
+
+            ViewBag.Currencies = new List<string>()
+            {
+                "ETH", "XLM", "TRX", "USDT", "BTC"
+            };
+
             CustomerDetailViewModel customer = new CustomerDetailViewModel() { id = id };
             OrdersRootViewModel orders = null;
             IEnumerable<BalanceViewModel> balances = null;
@@ -322,8 +334,7 @@ namespace Admin.Controllers
                 }
 
                 register.externalId = register.cpfCnpj.Replace(".", String.Empty).Replace("-", String.Empty).Trim();
-                register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Trim();
-
+                register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Replace("-",String.Empty).Trim();
 
                 var result = await _apiRegisterService.Register(register);
 
