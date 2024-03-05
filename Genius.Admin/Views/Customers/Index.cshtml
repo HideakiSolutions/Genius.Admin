@@ -34,10 +34,15 @@
                             <th>ExternalId</th>
                             <th>FirstName</th>
                             <th>LastName</th>
+                            <th>FullName</th>
+                            <th>LegalName</th>
+                            <th>CNAE</th>
+                            <th>Document</th>
                             <th>Email</th>
                             <th>PhoneNumber</th>
                             <th>Status</th>
                             <th>KYC Status</th>
+                            <th>Type</th>
                             <th>-</th>
                     </thead>
                     <tbody>
@@ -47,10 +52,15 @@
                                 <td>@Html.DisplayFor(modelItem => item.externalId)</td>
                                 <td>@Html.DisplayFor(modelItem => item.firstName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.lastName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.fullName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.legalName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.cnaeName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.cpfCnpj)</td>
                                 <td>@Html.DisplayFor(modelItem => item.email)</td>
                                 <td>@Html.DisplayFor(modelItem => item.phoneNumber)</td>
                                 <td>@Html.DisplayFor(modelItem => item.status)</td>
                                 <td>@Html.DisplayFor(modelItem => item.kycStatus)</td>
+                                <td>@Html.DisplayFor(modelItem => item.customerType)</td>
                                 <td>
                                     @Html.ActionLink("Details", "Details", new { id=item.id })
                                 </td>

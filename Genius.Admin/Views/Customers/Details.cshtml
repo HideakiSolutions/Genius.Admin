@@ -147,10 +147,21 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Withdrawal Addresses</h4>
-                                        <p class="card-title-desc">
-                                            List registered withdrawal addresses.
-                                        </p>
+                                        <div class="row">
+                                            <div class="col-xl-2">
+                                                <h4 class="card-title">Withdrawal Addresses</h4>
+                                                <p class="card-title-desc">
+                                                    List registered withdrawal addresses.
+                                                </p>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#withdraw"
+                                                        data-bs-whatever="@("@")mdo">
+                                                    Withdraw
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- End row -->
                                     </div>
 
 
@@ -481,47 +492,39 @@
                                     <div class="card">
                                         <div class="card-header align-items-center d-flex">
                                             <h4 class="card-title mb-0 flex-grow-1">Quotes</h4>
-                                            <div class="flex-shrink-0">
-
-                                            </div>
                                         </div>
-                                        <div class="card-body px-0">
+                                        <div>
                                             <div class="row">
-                                                <div class="col-xl-2">
-                                                    <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
-                                                        <table class="table align-middle table-nowrap table-borderless" id="buy-side-table">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="text-end">
-                                                                            <h5 class="font-size-14 text-muted mb-0">0.00000000</h5>
-                                                                            <p class="text-muted mb-0 font-size-12">0</p>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                <div class="col-xl-3">
+                                                    <table class="table align-middle table-nowrap table-borderless" id="buy-side-table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="bg-gradient bg-success">
+                                                                    <div class="text-end">
+                                                                        <h5 class="font-size-14 text-muted mb-0 fa-align-right">0.00000000</h5>
+                                                                        <p class="text-muted mb-0 font-size-12 fa-align-right">0</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <div class="col-xl-2">
-                                                    <div class="table-responsive px-3" data-simplebar style="max-height: 352px;">
-                                                        <table class="table align-middle table-nowrap table-borderless">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="text-end">
-                                                                            <h5 class="font-size-14 text-muted mb-0">0.00000000</h5>
-                                                                            <p class="text-muted mb-0 font-size-12">0</p>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                <div class="col-xl-3">
+                                                    <table class="table align-middle table-nowrap table-borderless" id="sell-side-table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="bg-gradient bg-danger">
+                                                                    <div class="text-end">
+                                                                        <h5 class="font-size-14 text-muted mb-0 fa-align-left">0.00000000</h5>
+                                                                        <p class="text-muted mb-0 font-size-12 fa-align-left">0</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
 
                                             </div>
-
                                         </div>
                                         <!-- end card body -->
                                     </div>
@@ -985,7 +988,7 @@
 
 @section externalhtml {
 
-    <!-- Modal -->
+    <!-- [Modal] Create Withdrawal Wallet -->
     <div class="modal fade" id="createWithdrawalWallet" tabindex="-1" role="dialog" aria-labelledby="composemodalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1058,8 +1061,10 @@
             </div>
         </div>
     </div>
+
     <!-- end modal -->
-    <!-- Modal -->
+    
+    <!-- [Modal] Create Deposit Wallet -->
     <div class="modal fade" id="createDepositWallet" tabindex="-1" role="dialog" aria-labelledby="composemodalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1106,6 +1111,50 @@
     </div>
     <!-- end modal -->
 
+    <div class="modal fade" id="withdraw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New withdraw</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label for="basicpill-documenttype-input" class="form-label">Currencies</label>
+                        <select class="form-select" name="documentType" id="documenttype-select">
+                            @foreach (string item in ViewBag.Currencies)
+                            {
+                                <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                            }
+                        </select>
+
+                        <label for="basicpill-documenttype-input" class="form-label">Withdrawal Addresses</label>
+                        <select class="form-select" name="documentType" id="documenttype-select">
+                            @foreach (var item in Model.withdrawalAddresses)
+                            {
+                                <option value="@item">@Html.DisplayFor(modelItem => item.address)</option>
+                                
+                            }
+                        </select>
+                        
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Amount:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Estimate Fee:</label>
+                            <input type="text" class="form-control" id="message-text">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-primary">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 }
 
 @section scripts {
@@ -1133,54 +1182,5 @@
 
     <script src="/assets/js/app.js"></script>
     <script src="/assets/js/pages/customer-detail.js"></script>
-    
-    <script type="text/javascript">
-        $(function () {
-            GetCustomers(1);
-        });
-    
-        $("body").on("click", ".Pager .page", function () {
-            GetCustomers(parseInt($(this).attr('page')));
-        });
-        
-        function GetCustomers(pageIndex) {
-            $.ajax({
-                type: "POST",
-                url: "/Quote/Quotation",
-                data: '{ product: ' + pageIndex + '}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: OnSuccess,
-                failure: function (response) {
-                    alert(response.d);
-                },
-                error: function (response) {
-                    alert(response.d);
-                }
-            });
-        }
-
-        function OnSuccess(response) {
-            var model = response;
-            var row = $("#tblCustomers tr:last-child").removeAttr("style").clone(true);
-            $("#tblCustomers tr").not($("#tblCustomers tr:first-child")).remove();
-            $.each(model.Customers, function () {
-                var customer = this;
-                $("td", row).eq(0).html(customer.CustomerID);
-                $("td", row).eq(1).html(customer.ContactName);
-                $("td", row).eq(2).html(customer.City);
-                $("td", row).eq(3).html(customer.Country);
-                $("#tblCustomers").append(row);
-                row = $("#tblCustomers tr:last-child").clone(true);
-            });
-            $(".Pager").ASPSnippets_Pager({
-                ActiveCssClass: "current",
-                PagerCssClass: "pager",
-                PageIndex: model.PageIndex,
-                PageSize: model.PageSize,
-                RecordCount: model.RecordCount
-            });
-        };
-    </script>
 
 }
