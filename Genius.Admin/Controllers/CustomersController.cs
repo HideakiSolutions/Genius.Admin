@@ -15,11 +15,11 @@ namespace Admin.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly IApiRegisterCustomerService _apiRegisterService;
+        private readonly IApiCustomersService _apiCustomersService;
 
-        public CustomersController(IApiRegisterCustomerService apiRegisterService)
+        public CustomersController(IApiCustomersService apiRegisterService)
         {
-            _apiRegisterService = apiRegisterService;
+            _apiCustomersService = apiRegisterService;
         }
 
         public ActionResult Register()
@@ -336,7 +336,7 @@ namespace Admin.Controllers
                 register.externalId = register.cpfCnpj.Replace(".", String.Empty).Replace("-", String.Empty).Trim();
                 register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Replace("-",String.Empty).Trim();
 
-                var result = await _apiRegisterService.Register(register);
+                var result = await _apiCustomersService.Register(register);
 
                 if (!result.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));

@@ -31,9 +31,13 @@ var apiUrl = builder.Configuration.GetValue<string>("ApiUrl");
 builder.Services.AddRefitClient<IApiLoginService>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrl));
 
-builder.Services.AddScoped<HeaderTokenHandler>();
+//builder.Services.AddScoped<HeaderTokenHandler>();
 
-builder.Services.AddRefitClient<IApiRegisterCustomerService>()
+builder.Services.AddRefitClient<IApiCustomersService>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrl))
+    .AddHttpMessageHandler<HeaderTokenHandler>();
+
+builder.Services.AddRefitClient<IApiOrdersService>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrl))
     .AddHttpMessageHandler<HeaderTokenHandler>();
 

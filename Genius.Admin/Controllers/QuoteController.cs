@@ -1,6 +1,8 @@
-﻿using Admin.Models;
+﻿using Admin.Abstractions;
+using Admin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -8,41 +10,39 @@ namespace Admin.Controllers
 {
     public class QuoteController : Controller
     {
+        private readonly IApiOrdersService _apiOrdersService;
+
+        public QuoteController(IApiOrdersService apiOrdersService)
+        {
+            _apiOrdersService = apiOrdersService;
+        }
+
         // GET: QuoteController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: QuoteController/Details/5
-        public BookViewModel Quotation(string product)
+        [HttpPost]
+        public QuoteViewModel AskQuote([FromBody] GetQuoteModel request)
         {
-            string productId = $"{product}_BRL";
-
-            BookViewModel book = null;
-
-            using (var client = new HttpClient())
+            try
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                request.productId = $"{request.productId}_BRL";
 
-                //HTTP GET
-                var responseTask = client.GetAsync($"quotes/{productId}/book");
-                responseTask.Wait();
-                var result = responseTask.Result;
+                var result = _apiOrdersService.GetQuote(request).Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = JsonSerializer.DeserializeAsync<BookViewModel>(result.Content.ReadAsStreamAsync().Result);
-                    //readTask.Wait();
-                    book = readTask.Result;
+                    QuoteViewModel resultViewModel = result.Content;
+                    return resultViewModel;
                 }
-                else
-                {
-                    book = new BookViewModel();
-                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
-                }
-                return book;
+
+                return new QuoteViewModel();
+            }
+            catch
+            {
+                return new QuoteViewModel();
             }
         }
 
