@@ -112,10 +112,16 @@ namespace Admin.Controllers
                 "Ethereum", "Stellar", "Tron", "Bitcoin"
             };
 
-            ViewBag.Currencies = new List<string>()
+            ViewBag.Tokens = new List<string>()
             {
                 "ETH", "XLM", "TRX", "USDT", "BTC"
             };
+
+            ViewBag.Products = new List<string>()
+            {
+                "BTC_BRL", "ETH_BRL", "USDT_BRL"
+            };
+
 
             CustomerDetailViewModel customer = new CustomerDetailViewModel() { id = id };
             OrdersRootViewModel orders = null;
@@ -201,9 +207,9 @@ namespace Admin.Controllers
 
                 if (balances.Count() > 0 )
                 {
-                    if(balances.Any(balance => balance.currency.Equals("USDT")))
+                    if(balances.Any(balance => balance.currency.Equals("BRL")))
                     {
-                        customer.available = balances.Where(balance => balance.currency.Equals("USDT")).FirstOrDefault().available;
+                        customer.available = balances.Where(balance => balance.currency.Equals("BRL")).FirstOrDefault().available;
                     }    
                 }    
             }

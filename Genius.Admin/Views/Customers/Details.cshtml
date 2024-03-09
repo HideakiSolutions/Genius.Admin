@@ -368,43 +368,28 @@
                                                     </div>
                                                     <h5 class="font-size-14 mb-4">Buy Coins</h5>
                                                     <div>
-                                                        <!--
-                                                        <div class="form-group mb-3">
-                                                            <label>Payment method :</label>
-                                                            <select class="form-select" disabled>
-                                                                <option>Direct Bank Payment</option>
-                                                                <option>Credit / Debit Card</option>
-                                                                <option>Paypal</option>
-                                                                <option>Payoneer</option>
-                                                                <option>Stripe</option>
-                                                            </select>
-                                                        </div>
-                                                        -->
                                                         <div>
-                                                            <label>Add Amount :</label>
                                                             <div class="input-group mb-3">
-                                                                @*
-                                                                    <select class="form-select" style="max-width: 90px;">
-                                                                        @foreach (var item in Model.tokens)
-                                                                        {
-                                                                            <option value="@Html.DisplayFor(modelItem => item.currency)">@Html.DisplayFor(modelItem => item.alias)</option>
-                                                                        }
-                                                                    </select>
-                                                                @Html.DropDownList("Balances", new SelectList(Model.balances.Select(item => item.currency)), "-- Select Token --", new { @class = "form-control" })
-                                                                *@
-                                                                <label class="input-group-text">Fiat</label>
+                                                                <label class="input-group-text">Spend</label>
                                                                 <select id="select-buybalance" class="form-select" style="max-width: 90px;">
                                                                 @foreach (var item in Model.balances)
                                                                 {
                                                                         <option value=@item.balance>@Html.DisplayFor(modelItem => item.currency)</option>
                                                                 }
                                                                 </select>
-                                                                <input id="buy-balance" type="text" class="form-control" placeholder="0.00000001">
+                                                                <input id="buy-balance" type="text" class="form-control" placeholder="0.00000000">
                                                             </div>
 
                                                             <div class="input-group mb-3">
+                                                                <label class="input-group-text">Buy</label>
+                                                                <select class="form-select" name="" id="select-buyproduct">
+                                                                    @foreach (string item in ViewBag.Products)
+                                                                    {
+                                                                        <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                                                    }
+                                                                </select>
                                                                 <label class="input-group-text">Price</label>
-                                                                <input id="buy-price" type="text" class="form-control" placeholder="$1.000">
+                                                                <input id="buy-price" type="text" class="form-control" placeholder="$0.000">
                                                                 <label class="input-group-text">$</label>
                                                             </div>
 
@@ -1032,7 +1017,7 @@
                                 <label for="basicpill-documenttype-input" class="form-label">Currencies</label>
                                 @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
                                 <select class="form-select" name="documentType" id="documenttype-select">
-                                    @foreach (string item in ViewBag.Currencies)
+                                    @foreach (string item in ViewBag.Tokens)
                                     {
                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
                                     }
@@ -1093,7 +1078,7 @@
                                 <label for="basicpill-documenttype-input" class="form-label">Currency</label>
                                 @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
                                 <select class="form-select" name="documentType" id="documenttype-select">
-                                    @foreach (string item in ViewBag.Currencies)
+                                    @foreach (string item in ViewBag.Tokens)
                                     {
                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
                                     }
@@ -1122,7 +1107,7 @@
                     <form>
                         <label for="basicpill-documenttype-input" class="form-label">Currencies</label>
                         <select class="form-select" name="documentType" id="documenttype-select">
-                            @foreach (string item in ViewBag.Currencies)
+                            @foreach (string item in ViewBag.Tokens)
                             {
                                 <option value="@item">@Html.DisplayFor(modelItem => item)</option>
                             }
@@ -1182,5 +1167,6 @@
 
     <script src="/assets/js/app.js"></script>
     <script src="/assets/js/pages/customer-detail.js"></script>
+    <script>var customer = @Html.DisplayFor(modelItem => modelItem.id) </script>
 
 }

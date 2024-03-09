@@ -84,9 +84,8 @@ namespace Admin.Controllers
         }
 
         [HttpGet]
-        public BookViewModel Quotation(string product)
+        public BookViewModel Quotation(string productId)
         {
-            string productId = $"{product}_BRL";
 
             BookViewModel book = null;
 

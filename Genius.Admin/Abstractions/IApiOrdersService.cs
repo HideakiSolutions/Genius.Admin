@@ -6,6 +6,6 @@ namespace Admin.Abstractions
     public interface IApiOrdersService
     {
         [Post("/orders/askQuote")]
-        Task<ApiResponse<QuoteViewModel>> GetQuote([Body(BodySerializationMethod.Serialized)] GetQuoteModel request);
+        Task<ApiResponse<QuoteViewModel>> AskQuote([Body(BodySerializationMethod.Serialized)] GetQuoteModel request);
     }
 }

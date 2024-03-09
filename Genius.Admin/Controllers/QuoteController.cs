@@ -17,20 +17,19 @@ namespace Admin.Controllers
             _apiOrdersService = apiOrdersService;
         }
 
-        // GET: QuoteController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public QuoteViewModel AskQuote([FromBody] GetQuoteModel request)
+        [HttpGet]
+        public QuoteViewModel AskQuote(string side, string productId, string size)
         {
             try
             {
-                request.productId = $"{request.productId}_BRL";
+                GetQuoteModel request = new GetQuoteModel()
+                {
+                    productId = productId,
+                    size = size,
+                    side = side
+                };
 
-                var result = _apiOrdersService.GetQuote(request).Result;
+                var result = _apiOrdersService.AskQuote(request).Result;
 
                 if (result.IsSuccessStatusCode)
                 {
@@ -43,69 +42,6 @@ namespace Admin.Controllers
             catch
             {
                 return new QuoteViewModel();
-            }
-        }
-
-        // GET: QuoteController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: QuoteController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: QuoteController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: QuoteController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: QuoteController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: QuoteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
     }

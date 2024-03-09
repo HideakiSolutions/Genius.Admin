@@ -39,7 +39,7 @@ namespace Admin.Controllers
                     withdrawalAddresses = new List<WithdrawalAddressViewModel>();
                     ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
                 }
-                
+
                 return View(withdrawalAddresses);
             }
         }
@@ -75,72 +75,34 @@ namespace Admin.Controllers
             }
         }
 
-        // GET: AddressesController/Details/5
-        public ActionResult Details(int id)
+        public IEnumerable<BalanceModel> GetBalance(string customerId, string currencyId)
         {
-            return View();
-        }
+            IEnumerable<BalanceModel> balances = null;
 
-        // GET: AddressesController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
-        // POST: AddressesController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                //HTTP GET
+                var responseTask = client.GetAsync($"wallets/balance?customer_id={customerId}&currency={currencyId}");
+                responseTask.Wait();
+                var result = responseTask.Result;
 
-        // GET: AddressesController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = JsonSerializer.DeserializeAsync<IEnumerable<BalanceModel>>(result.Content.ReadAsStreamAsync().Result);
+                    //readTask.Wait();
+                    balances = readTask.Result;
+                }
+                else
+                {
+                    balances = new List<BalanceModel>();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
 
-        // POST: AddressesController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                return balances;
 
-        // GET: AddressesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AddressesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
     }

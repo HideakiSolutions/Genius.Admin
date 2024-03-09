@@ -1,29 +1,83 @@
-﻿document.getElementById("select-sellbalance").addEventListener("change", function (event) {
-    console.log(event);
+﻿document.getElementById("select-buyproduct").addEventListener("change", function (event) {
+    getBook("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
+    getQuote("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
+});
+
+document.getElementById("select-sellbalance").addEventListener("change", function (event) {
     document.getElementById("sell-balance").value = event.currentTarget[event.currentTarget.selectedIndex].value;
     getBook("SELL", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
     getQuote("SELL", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
 });
 
 document.getElementById("select-buybalance").addEventListener("change", function (event) {
-    console.log(event);
-    document.getElementById("buy-balance").value = event.currentTarget[event.currentTarget.selectedIndex].value;
-    getBook("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
-    getQuote("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
+    var productId = document.getElementById("select-buyproduct").value;
+    getBook(productId);
+    getQuote("BUY", productId, 1);
+    getBalance(event.currentTarget[event.currentTarget.selectedIndex].text);
 });
 
 function handle(balance) {
     console.log(balance);
 }
 
-function getBook(side, product, quantity)
+function getBalance(currency) {
+
+    var customer = document.getElementById("id").value;
+
+    var url = "/wallets/GetBalance?customerId=" + customer + "&currencyId=" + currency;
+
+    const options =
+    {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(data => {
+            if (!data.ok) {
+                throw Error(data.status);
+            }
+            return data.json();
+        })
+        .then(quote => {
+            OnBalance(quote);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+};
+
+function OnBalance(data) {
+
+    if (data == null)
+    {
+        document.getElementById("buy-balance").value = "0.00000000";
+    }
+    else
+    {
+        //data[0].id
+        //data[0].type
+        //data[0].customerId
+        //data[0].userId
+        //data[0].status
+        //data[0].currency
+        //data[0].balance
+        //data[0].available
+        //data[0].hold
+        //data[0].pending
+        console.log(data[0].available);
+        document.getElementById("buy-balance").value = data[0].available;
+    }
+};
+
+function getBook(productId)
 {
 
-    var url = "/OfferBook/Quotation?product=" + product;
+    var url = "/OfferBook/Quotation?productId=" + productId;
 
     const request =
     {
-        productId: product
+        productId: productId
     };
 
     const options =
@@ -47,20 +101,14 @@ function getBook(side, product, quantity)
         })
 };
 
-function getQuote(side, product, qtty) {
+function getQuote(side, product, size) {
 
-    var url = "/Quote/askQuote";
-
-    const request =
-    {
-        productId: product, size: qtty, side: side
-    };
+    var url = "/Quote/askQuote?side=" + side + "&productId=" + product + "&size=" + size;
 
     const options =
     {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request)
     };
 
     fetch(url, options)
@@ -75,6 +123,7 @@ function getQuote(side, product, qtty) {
         .then(quote =>
         {
             OnQuote(quote, side);
+            setTotalAmount(side, quote.price, size);
         })
         .catch(e =>
         {
@@ -93,8 +142,9 @@ function OnQuote(quote, side) {
     {
         $("#buy-price").val(quote.price);
         $("#buy-total-amount").val(quote.amount);
-
     }
+
+
 };
 function OnBook(data) {
 
@@ -154,3 +204,20 @@ function OnBook(data) {
     }
 };
 
+function setTotalAmount(side, price, quantity) {
+    var totalAmount = price * quantity;
+    if (side == "BUY") {
+        $("#buy-total-amount").val(totalAmount);
+    }
+    else {
+        $("#sell-total-amount").val(totalAmount);
+    }
+};
+
+
+//function alert(message, type) {
+//    var wrapper = document.createElement('div')
+//    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+//    alertPlaceholder.append(wrapper);
+//};
