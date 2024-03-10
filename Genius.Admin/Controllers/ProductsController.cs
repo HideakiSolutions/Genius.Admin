@@ -38,73 +38,39 @@ namespace Admin.Controllers
             }
         }
 
-        // GET: ProductsController/Details/5
-        public ActionResult Details(int id)
+        public Product GetProduct(string product)
         {
-            return View();
+            if(Store.Products is null)
+            {
+                IEnumerable<ProductsViewModel> products = null;
+
+                using (var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                    client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                    //HTTP GET
+                    var responseTask = client.GetAsync("quotes/products");
+                    responseTask.Wait();
+                    var result = responseTask.Result;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = JsonSerializer.DeserializeAsync<IList<ProductsViewModel>>(result.Content.ReadAsStreamAsync().Result);
+                        products = readTask.Result;
+                        Store.Products = products.ToList().Select(product => new Product(product));
+                    }
+                    else
+                    {
+                        products = Enumerable.Empty<ProductsViewModel>();
+                        ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                    }
+                }
+            }
+
+            return Store.Products.Where(product => product.productId.Equals(product)).FirstOrDefault();
+
         }
 
-        // GET: ProductsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ProductsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

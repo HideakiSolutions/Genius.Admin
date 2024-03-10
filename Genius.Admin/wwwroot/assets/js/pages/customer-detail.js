@@ -1,24 +1,62 @@
 ﻿document.getElementById("select-buyproduct").addEventListener("change", function (event) {
-    getBook("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
-    getQuote("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
+    
+        getBook(event.currentTarget[event.currentTarget.selectedIndex].value);
+        getQuote("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, 1);
+        getProduct(event.currentTarget[event.currentTarget.selectedIndex].text);
+});
+
+document.getElementById("buy-sendOrder").addEventListener('click', function (e) {
+    SendOrder();
+});
+
+document.getElementById("buy-quantity").addEventListener("change", function (event) {
+    console.log(document.getElementById("buy-quantity").value);
+    var quantity = document.getElementById("buy-quantity").value;
+    var price = document.getElementById("buy-price").value;
+    setTotalAmount("BUY", price, quantity);
 });
 
 document.getElementById("select-sellbalance").addEventListener("change", function (event) {
     document.getElementById("sell-balance").value = event.currentTarget[event.currentTarget.selectedIndex].value;
-    getBook("SELL", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
-    getQuote("SELL", event.currentTarget[event.currentTarget.selectedIndex].text, event.currentTarget[event.currentTarget.selectedIndex].value);
 });
 
 document.getElementById("select-buybalance").addEventListener("change", function (event) {
     var productId = document.getElementById("select-buyproduct").value;
-    getBook(productId);
-    getQuote("BUY", productId, 1);
     getBalance(event.currentTarget[event.currentTarget.selectedIndex].text);
 });
 
 function handle(balance) {
     console.log(balance);
 }
+
+function getProduct(product) {
+
+    var url = "/Products/GetProduct?product=" + product;
+
+    const options =
+    {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(data => {
+            if (!data.ok) {
+                throw Error(data.status);
+            }
+            return data.json();
+        })
+        .then(product => {
+            OnProduct(product);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+};
+
+function OnProduct(product) {
+    console.log(product.productId);
+};
 
 function getBalance(currency) {
 
@@ -123,7 +161,6 @@ function getQuote(side, product, size) {
         .then(quote =>
         {
             OnQuote(quote, side);
-            setTotalAmount(side, quote.price, size);
         })
         .catch(e =>
         {
@@ -135,12 +172,14 @@ function OnQuote(quote, side) {
     if (side == "SELL")
     {
         $("#sell-price").val(quote.price);
+        $("#sell-quantity").val(quote.size);
         $("#sell-total-amount").val(quote.amount);
     }
 
     if (side == "BUY")
     {
         $("#buy-price").val(quote.price);
+        $("#buy-quantity").val(quote.size);
         $("#buy-total-amount").val(quote.amount);
     }
 
@@ -205,15 +244,54 @@ function OnBook(data) {
 };
 
 function setTotalAmount(side, price, quantity) {
-    var totalAmount = price * quantity;
-    if (side == "BUY") {
-        $("#buy-total-amount").val(totalAmount);
-    }
-    else {
-        $("#sell-total-amount").val(totalAmount);
+    if (price > 0 && quantity > 0)
+    {
+        var totalAmount = price * quantity;
+        if (side == "BUY") {
+            $("#buy-total-amount").val(totalAmount);
+        }
+        else {
+            $("#sell-total-amount").val(totalAmount);
+        }
     }
 };
 
+
+function SendOrder() {
+    var url = "/Orders/SendOrder";
+
+    const request =
+    {
+        customerId: "jv3dte8ir7qbk0",
+        productId: "USDT_BRL",
+        side: "BUY",
+        price: "5.104581",
+        size: "1",
+        externalId: "4be15f91dbab497bb3890ef06ab4438f",
+        depositMethod: "ACCOUNT"
+    };
+
+    const options =
+    {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request)
+    };
+
+    fetch(url, options)
+        .then(data => {
+            if (!data.ok) {
+                throw Error(data.status);
+            }
+            return data.json();
+        })
+        .then(quote => {
+            OnQuote(quote, side);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+};
 
 //function alert(message, type) {
 //    var wrapper = document.createElement('div')

@@ -372,35 +372,47 @@
                                                             <div class="input-group mb-3">
                                                                 <label class="input-group-text">Spend</label>
                                                                 <select id="select-buybalance" class="form-select" style="max-width: 90px;">
-                                                                @foreach (var item in Model.balances)
-                                                                {
+                                                                    <option>-</option>
+                                                                    @foreach (var item in Model.balances)
+                                                                    {
                                                                         <option value=@item.balance>@Html.DisplayFor(modelItem => item.currency)</option>
-                                                                }
+                                                                    }
                                                                 </select>
-                                                                <input id="buy-balance" type="text" class="form-control" placeholder="0.00000000">
+                                                                <input id="buy-balance" type="text" readonly class="form-control" placeholder="0.00000000">
                                                             </div>
 
                                                             <div class="input-group mb-3">
                                                                 <label class="input-group-text">Buy</label>
                                                                 <select class="form-select" name="" id="select-buyproduct">
+                                                                    <option>-</option>
                                                                     @foreach (string item in ViewBag.Products)
                                                                     {
                                                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
                                                                     }
                                                                 </select>
+
+                                                            </div>
+
+                                                            <div class="input-group mb-3">
                                                                 <label class="input-group-text">Price</label>
-                                                                <input id="buy-price" type="text" class="form-control" placeholder="$0.000">
+                                                                <input id="buy-price" readonly type="text" class="form-control" placeholder="$0.00000000">
+                                                                <label class="input-group-text">$</label>
+                                                            </div>
+
+                                                            <div class="input-group mb-3">
+                                                                <label class="input-group-text">Quantity</label>
+                                                                <input id="buy-quantity" type="text" class="form-control" placeholder="0.00000000">
                                                                 <label class="input-group-text">$</label>
                                                             </div>
 
                                                             <div class="input-group mb-3">
                                                                 <label class="input-group-text">Total</label>
-                                                                <input disabled id="buy-total-amount" type="text" class="form-control" placeholder="$0,000.00">
+                                                                <input disabled id="buy-total-amount" readonly type="text" class="form-control" placeholder="$0,000.00">
                                                             </div>
                                                         </div>
 
                                                         <div class="text-center">
-                                                            <button type="button" class="btn btn-success w-md">Buy Coin</button>
+                                                            <button type="button" id="buy-sendOrder" class="btn btn-success w-md">Buy Coin</button>
                                                         </div>
                                                     </div>
 
