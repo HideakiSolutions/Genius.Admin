@@ -1,12 +1,13 @@
 ﻿document.getElementById("select-buyproduct").addEventListener("change", function (event) {
+
     
-        getBook(event.currentTarget[event.currentTarget.selectedIndex].value);
-        getQuote("BUY", event.currentTarget[event.currentTarget.selectedIndex].text, 1);
-        getProduct(event.currentTarget[event.currentTarget.selectedIndex].text);
+    getProduct(productId, "BUY");
+    //getBook(productId);
+    //getQuote("BUY", productId, product.minOrderSize);
 });
 
 document.getElementById("buy-sendOrder").addEventListener('click', function (e) {
-    SendOrder();
+    SendOrder("BUY");
 });
 
 document.getElementById("buy-quantity").addEventListener("change", function (event) {
@@ -29,7 +30,7 @@ function handle(balance) {
     console.log(balance);
 }
 
-function getProduct(product) {
+function getProduct(product, side) {
 
     var url = "/Products/GetProduct?product=" + product;
 
@@ -48,6 +49,8 @@ function getProduct(product) {
         })
         .then(product => {
             OnProduct(product);
+            getBook(product.productId);
+            getQuote(side, product.productId, product.minOrderSize);
         })
         .catch(e => {
             console.log(e);
@@ -55,7 +58,7 @@ function getProduct(product) {
 };
 
 function OnProduct(product) {
-    console.log(product.productId);
+    console.log(product);
 };
 
 function getBalance(currency) {
@@ -257,17 +260,24 @@ function setTotalAmount(side, price, quantity) {
 };
 
 
-function SendOrder() {
+function SendOrder(side) {
+
+    var customer = document.getElementById("id").value;
+    var product = document.getElementById("select-buyproduct")[document.getElementById("select-buyproduct").selectedIndex].value;
+    var price = document.getElementById("buy-price").value;
+    var quantity = document.getElementById("buy-quantity").value;
+
+
     var url = "/Orders/SendOrder";
 
     const request =
     {
-        customerId: "jv3dte8ir7qbk0",
-        productId: "USDT_BRL",
-        side: "BUY",
-        price: "5.104581",
-        size: "1",
-        externalId: "4be15f91dbab497bb3890ef06ab4438f",
+        customerId: customer,
+        productId: product,
+        side: side,
+        price: price,
+        size: quantity,
+        externalId: generateUUID(),
         depositMethod: "ACCOUNT"
     };
 
@@ -285,12 +295,17 @@ function SendOrder() {
             }
             return data.json();
         })
-        .then(quote => {
-            OnQuote(quote, side);
+        .then(response => {
+            OnOrder(response);
         })
         .catch(e => {
             console.log(e);
         })
+};
+
+
+function OnOrder(response) {
+    alert("Order sent!");
 };
 
 //function alert(message, type) {
@@ -299,3 +314,20 @@ function SendOrder() {
 
 //    alertPlaceholder.append(wrapper);
 //};
+
+
+function generateUUID() { // Public Domain/MIT
+    var d = new Date().getTime();//Timestamp
+    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) {
+        var r = Math.random() * 16;//random number between 0 and 16
+        if (d > 0) {//Use timestamp until depleted
+            r = (d + r) % 16 | 0;
+            d = Math.floor(d / 16);
+        } else {//Use microseconds since page-load if supported
+            r = (d2 + r) % 16 | 0;
+            d2 = Math.floor(d2 / 16);
+        }
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}

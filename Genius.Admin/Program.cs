@@ -41,6 +41,10 @@ builder.Services.AddRefitClient<IApiOrdersService>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrl))
     .AddHttpMessageHandler<HeaderTokenHandler>();
 
+builder.Services.AddRefitClient<IApiWalletsService>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiUrl))
+    .AddHttpMessageHandler<HeaderTokenHandler>();
+
 builder.Services.AddScoped<HeaderTokenHandler>();
 
 var app = builder.Build();

@@ -995,19 +995,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-@*
-                        <div class="col-lg-3">
-                            <div class="mb-3">
-                                <label for="firstname" class="form-label">Network</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="Enter Your First Name" asp-for=firstName input-for="CustomerRegisterViewModel.firstName">
-                            </div>
-                        </div>
-*@
+
                         <div class="col-lg-3">
                             <div class="mb-3">
                                 <label for="basicpill-documenttype-input" class="form-label">Network</label>
                                 @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
-                                <select class="form-select" name="documentType" id="documenttype-select">
+                                <select class="form-select" name="select-withdrawal-network" id="select-withdrawal-network">
                                     @foreach (string item in ViewBag.Networks)
                                     {
                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
@@ -1016,19 +1009,11 @@
                             </div>
                         </div>
 
-@*                                 
-                        <div class="col-lg-3">
-                            <div class="mb-3">
-                                <label for="firstname" class="form-label">Currency</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="Enter Your First Name" asp-for=firstName input-for="CustomerRegisterViewModel.firstName">
-                            </div>
-                        </div>
-*@
                         <div class="col-lg-3">
                             <div class="mb-3">
                                 <label for="basicpill-documenttype-input" class="form-label">Currencies</label>
                                 @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
-                                <select class="form-select" name="documentType" id="documenttype-select">
+                                <select class="form-select" name="select-withdrawal-currency" id="select-withdrawal-currency">
                                     @foreach (string item in ViewBag.Tokens)
                                     {
                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
@@ -1040,20 +1025,20 @@
                         <div class="col-lg-3">
                             <div class="mb-3">
                                 <label for="firstname" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="Enter Your First Name" asp-for=firstName input-for="CustomerRegisterViewModel.firstName">
+                                <input type="text" class="form-control" id="withdrawal-address" placeholder="Enter Your First Name">
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="mb-3">
                                 <label for="firstname" class="form-label">Destination Tag</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="Enter Your First Name" asp-for=firstName input-for="CustomerRegisterViewModel.firstName">
+                                <input type="text" class="form-control" id="withdrawal-detinationTag" placeholder="Enter Your First Name">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save <i class="fab fa-telegram-plane ms-1"></i></button>
+                    <button type="button" class="btn btn-primary" id="save-withdrawalAddress">Save <i class="fab fa-telegram-plane ms-1"></i></button>
                 </div>
             </div>
         </div>
@@ -1075,7 +1060,7 @@
                             <div class="mb-3">
                                 <label for="basicpill-documenttype-input" class="form-label">Network</label>
                                 @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
-                                <select class="form-select" name="documentType" id="documenttype-select">
+                                <select class="form-select" name="documentType" id="select-deposit-network">
                                     @foreach (string item in ViewBag.Networks)
                                     {
                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
@@ -1089,7 +1074,7 @@
                             <div class="mb-3">
                                 <label for="basicpill-documenttype-input" class="form-label">Currency</label>
                                 @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
-                                <select class="form-select" name="documentType" id="documenttype-select">
+                                <select class="form-select" name="documentType" id="select-deposit-currency">
                                     @foreach (string item in ViewBag.Tokens)
                                     {
                                         <option value="@item">@Html.DisplayFor(modelItem => item)</option>
@@ -1101,7 +1086,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save <i class="fab fa-telegram-plane ms-1"></i></button>
+                    <button type="button" class="btn btn-primary" id="save-depositAddress">Save <i class="fab fa-telegram-plane ms-1"></i></button>
                 </div>
             </div>
         </div>
@@ -1117,8 +1102,19 @@
                 </div>
                 <div class="modal-body">
                     <form>
+
+                        <label for="basicpill-documenttype-input" class="form-label">Networks</label>
+                        <select class="form-select" name="documentType" id="select-withdrawal-network">
+                            <option>-</option>
+                            @foreach (string item in ViewBag.Networks)
+                            {
+                                <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                            }
+                        </select>
+
                         <label for="basicpill-documenttype-input" class="form-label">Currencies</label>
-                        <select class="form-select" name="documentType" id="documenttype-select">
+                        <select class="form-select" name="documentType" id="select-withdrawal-currency">
+                            <option>-</option>
                             @foreach (string item in ViewBag.Tokens)
                             {
                                 <option value="@item">@Html.DisplayFor(modelItem => item)</option>
@@ -1126,27 +1122,27 @@
                         </select>
 
                         <label for="basicpill-documenttype-input" class="form-label">Withdrawal Addresses</label>
-                        <select class="form-select" name="documentType" id="documenttype-select">
+                        <select class="form-select" name="documentType" id="select-withdrawal-address">
                             @foreach (var item in Model.withdrawalAddresses)
                             {
-                                <option value="@item">@Html.DisplayFor(modelItem => item.address)</option>
+                                <option value="@item.id">@Html.DisplayFor(modelItem => item.address)</option>
                                 
                             }
                         </select>
                         
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Amount:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="withdrawal-amount">
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Estimate Fee:</label>
-                            <input type="text" class="form-control" id="message-text">
+                            <input type="text" class="form-control" id="withdrawal-estimate-fee" readonly>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
-                    <button type="button" class="btn btn-primary">Withdraw</button>
+                    <button type="button" class="btn btn-primary" id="create-withdrawal">Withdraw</button>
                 </div>
             </div>
         </div>
@@ -1179,6 +1175,8 @@
 
     <script src="/assets/js/app.js"></script>
     <script src="/assets/js/pages/customer-detail.js"></script>
-    <script>var customer = @Html.DisplayFor(modelItem => modelItem.id) </script>
+    <script src="/assets/js/pages/wallets.js"></script>
+    <script src="/assets/js/pages/tokens.js"></script>
+
 
 }

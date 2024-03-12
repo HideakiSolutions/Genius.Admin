@@ -1,4 +1,5 @@
-﻿using Admin.Models;
+﻿using Admin.Abstractions;
+using Admin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
@@ -8,6 +9,13 @@ namespace Admin.Controllers
 {
     public class WalletsController : Controller
     {
+
+        private readonly IApiWalletsService _apiWalletsService;
+
+        public WalletsController(IApiWalletsService apiWalletsService)
+        {
+            _apiWalletsService = apiWalletsService;
+        }
         // GET: AddressesController
         public ActionResult Index()
         {
@@ -103,6 +111,75 @@ namespace Admin.Controllers
 
                 return balances;
 
+            }
+        }
+
+        [HttpPost]
+        public WithdrawalAddressResponse CreateWithdrawalAddress(string customer, [FromBody] WithdrawalAddressRequest request)
+        {
+            try
+            {
+                WithdrawalAddressQueryParams parameters = new WithdrawalAddressQueryParams() { CustomerId = customer };
+
+                var result = _apiWalletsService.CreateWithdrawalAddress(request, parameters).Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    WithdrawalAddressResponse response = result.Content;
+                    return response;
+                }
+
+                return new WithdrawalAddressResponse();
+            }
+            catch
+            {
+                return new WithdrawalAddressResponse();
+            }
+        }
+
+        [HttpPost]
+        public DepositAddressResponse CreateDepositAddress(string customer, [FromBody] DepositAddressRequest request)
+        {
+            try
+            {
+                DepositAddressQueryParams parameters = new DepositAddressQueryParams() { CustomerId = customer };
+
+                var result = _apiWalletsService.CreateDepositAddress(request, parameters).Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    DepositAddressResponse response = result.Content;
+                    return response;
+                }
+
+                return new DepositAddressResponse();
+            }
+            catch
+            {
+                return new DepositAddressResponse();
+            }
+        }
+
+        [HttpPost]
+        public WithdrawalResponse CreateWithdrawal(string customer, [FromBody] WithdrawalRequest request)
+        {
+            try
+            {
+                WithdrawalQueryParams parameters = new WithdrawalQueryParams() { CustomerId = customer };
+
+                var result = _apiWalletsService.CreateWithdrawal(request, parameters).Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    WithdrawalResponse response = result.Content;
+                    return response;
+                }
+
+                return new WithdrawalResponse();
+            }
+            catch
+            {
+                return new WithdrawalResponse();
             }
         }
     }

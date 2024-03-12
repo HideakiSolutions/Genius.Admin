@@ -68,8 +68,7 @@ namespace Admin.Controllers
                 }
             }
 
-            return Store.Products.Where(product => product.productId.Equals(product)).FirstOrDefault();
-
+            return Store.Products.Where(p => p.productId.Equals(product)).FirstOrDefault();
         }
 
     }

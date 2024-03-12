@@ -5,7 +5,7 @@ namespace Admin.Abstractions
 {
     public interface IApiCustomersService
     {
-        [Post("/customers")]
+        [Post("/wallets/withdrawal-address")]
         Task<ApiResponse<CustomerViewModel>> Register([Body(BodySerializationMethod.Serialized)] CustomerRegisterViewModel request);
     }
 }

@@ -35,5 +35,35 @@ namespace Admin.Controllers
                 return View(contatos);
             }
         }
+
+        public WithdrawalEstimateFee GetWithdrawalEstimateFee(string network, string currency)
+        {
+            WithdrawalEstimateFee response = null;
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                //HTTP GET
+                var responseTask = client.GetAsync($"tokens/withdrawal-fee?network={network}&currency={currency}");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = JsonSerializer.DeserializeAsync<WithdrawalEstimateFee>(result.Content.ReadAsStreamAsync().Result);
+                    //readTask.Wait();
+                    response = readTask.Result;
+                }
+                else
+                {
+                    response = new WithdrawalEstimateFee();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
+                
+                return response;
+            }
+        }
     }
 }
