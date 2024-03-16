@@ -4,8 +4,8 @@
     {
         public string currency  {  get; set; }
         public string network   { get; set; }
-        public decimal fee      { get; set; }
-        public Int64 timestamp  { get; set; }
+        public string fee      { get; set; }
+        public string timestamp  { get; set; }
 
     }
 }

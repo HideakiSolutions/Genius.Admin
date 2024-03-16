@@ -2,6 +2,7 @@
 using Admin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -20,7 +21,7 @@ namespace Admin.Controllers
         // GET: OrdersController
         public ActionResult Index()
         {
-            OrdersRootViewModel contatos = null;
+            OrdersRootViewModel orders = null;
 
             using (var client = new HttpClient())
             {
@@ -36,19 +37,72 @@ namespace Admin.Controllers
                 {
                     var readTask = JsonSerializer.DeserializeAsync<OrdersRootViewModel>(result.Content.ReadAsStreamAsync().Result);
                     //readTask.Wait();
-                    contatos = readTask.Result;
+                    orders = readTask.Result;
                 }
                 else
                 {
-                    contatos = new OrdersRootViewModel();
+                    orders = new OrdersRootViewModel();
                     ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
                 }
-                return View(contatos);
+                return View(orders);
             }
         }
 
+        public IEnumerable<Order> GetOrders(string customerId)
+        {
+            OrdersRootViewModel orders = null;
+            List<Order> response = new List<Order>();
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                //HTTP GET
+                var responseTask = client.GetAsync($"orders?customer_id={customerId}&page_num=1&page_size=10");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = JsonSerializer.DeserializeAsync<OrdersRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                    orders = readTask.Result;
+
+                    if (orders.totalPages > 1)
+                    {
+                        Int32 count = orders.totalPages;
+
+                        for (int i = 2; i <= count;)
+                        {
+                            responseTask = client.GetAsync($"orders?customer_id={customerId}&page_num={i}&page_size=10");
+                            responseTask.Wait();
+                            result = responseTask.Result;
+
+                            if (result.IsSuccessStatusCode)
+                            {
+                                readTask = JsonSerializer.DeserializeAsync<OrdersRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                                orders.content.AddRange(readTask.Result.content);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    orders = new OrdersRootViewModel();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
+            }
+
+            if(orders.content.Count > 0)
+            {
+                response.AddRange(orders.content.Select(order => new Order()));
+            }
+
+            return response;
+        }
+
         [HttpPost]
-        public OrderResponse SendOrder([FromBody] OrderModel request)
+        public OrderResponse SendOrder([FromBody] TradeRequest request)
         {
             try
             {

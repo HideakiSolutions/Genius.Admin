@@ -1,23 +1,20 @@
-﻿document.getElementById("select-withdrawal-network").addEventListener("change", function (event) {
-    //event.currentTarget[event.currentTarget.selectedIndex].value
-    if (event.currentTarget.selectedIndex > 0 && document.getElementById("select-withdrawal-currency").selectedIndex > 0)
+﻿function OnChangeWithdrawalNetwork() {
+
+    if (document.getElementById("select-withdraw-network").selectedIndex > 0 && document.getElementById("select-withdraw-currency").selectedIndex > 0)
     {
         GetWithdrawalEstimateFee();
     }
-    
+};
 
-});
-
-document.getElementById("select-withdrawal-currency").addEventListener("change", function (event) {
-    
-    if (document.getElementById("select-withdrawal-network").selectedIndex > 0 && event.currentTarget.selectedIndex > 0) {
+function OnChangeWithdrawalCurrency() {    
+    if (document.getElementById("select-withdraw-network").selectedIndex > 0 && document.getElementById("select-withdraw-currency").selectedIndex > 0)
+    {
         GetWithdrawalEstimateFee();
     }
-});
+};
 
 
 function GetWithdrawalEstimateFee() {
-
     var network = document.getElementById("select-withdrawal-network")[document.getElementById("select-withdrawal-network").selectedIndex].value;
     var currency = document.getElementById("select-withdrawal-currency")[document.getElementById("select-withdrawal-currency").selectedIndex].value;
 
@@ -42,6 +39,7 @@ function GetWithdrawalEstimateFee() {
         .catch(e => {
             console.log(e);
         })
+
 };
 
 function OnWithdrawalEstimateFee(response) {

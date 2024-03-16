@@ -14,8 +14,10 @@
         public IEnumerable<BalanceViewModel> balances { get; set; }
         public IEnumerable<TokenViewModel> tokens { get; set; }
         public IEnumerable<WithdrawalAddressViewModel> withdrawalAddresses { get; set; }
+        public WithdrawalHistoryRootViewModel withdrawalHistory { get; set; }
         public IEnumerable<DepositAddressViewModel> depositAddresses { get; set; }
         public IEnumerable<FiatDepositViewModel> depositInformations { get; set; }
+        public DepositHistoryRootViewModel depositHistory { get; set; }
         public string available {  get; set; }
 
     }

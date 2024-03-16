@@ -1,6 +1,6 @@
 ﻿namespace Admin.Models
 {
-    public class Content
+    public class OrdersContent
     {
         public string customerId { get; set; }
         public string orderId { get; set; }
@@ -29,7 +29,7 @@
         public int pageSize { get; set; }
         public int totalPages { get; set; }
         public int totalElements { get; set; }
-        public List<Content> content { get; set; }
+        public List<OrdersContent> content { get; set; }
     }
 
 }

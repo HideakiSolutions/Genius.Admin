@@ -1,6 +1,6 @@
 ﻿namespace Admin.Models
 {
-    public class OrderModel
+    public class TradeRequest
     {
         public string customerId { get; set; }
         public string productId { get; set; }

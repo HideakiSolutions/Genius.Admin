@@ -111,7 +111,7 @@ function CreateWithdrawal() {
 
     const request =
     {
-        customer: customer,
+        customerId: customer,
         currency: currency,
         withdrawAddressId: address,
         amount: amount,

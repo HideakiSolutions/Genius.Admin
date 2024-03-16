@@ -128,9 +128,13 @@ namespace Admin.Controllers
             IEnumerable<BalanceViewModel> balances = null;
             IEnumerable<TokenViewModel> tokens = null;
             IEnumerable<WithdrawalAddressViewModel> withdrawalAddresses = null;
+            WithdrawalHistoryRootViewModel withdrawalHistory = null;
             IEnumerable<DepositAddressViewModel> depositAddresses = null;
             IEnumerable<FiatDepositViewModel> depositInformations = null;
+            DepositHistoryRootViewModel depositHistory = null;
 
+
+            // Customer details
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
@@ -154,21 +158,43 @@ namespace Admin.Controllers
                 }
             }
 
+            // Customer orders
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
                 client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
-                var responseTask = client.GetAsync($"orders?customer_id={id}");
+
+                var responseTask = client.GetAsync($"orders?customer_id={id}&page_num=1&page_size=10");
                 responseTask.Wait();
                 var result = responseTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
                     var readTask = JsonSerializer.DeserializeAsync<OrdersRootViewModel>(result.Content.ReadAsStreamAsync().Result);
-                    //readTask.Wait();
                     orders = readTask.Result;
+
+                    if (orders.totalPages > 1)
+                    {
+
+                        Int32 totalPages = orders.totalPages;
+                        orders.totalPages = 1;
+                        orders.pageNum = 1;
+                        for (int i = 2; i <= totalPages; i++)
+                        {
+                            responseTask = client.GetAsync($"orders?customer_id={id}&page_num={i}&page_size=10");
+                            responseTask.Wait();
+                            result = responseTask.Result;
+
+                            if (result.IsSuccessStatusCode)
+                            {
+                                readTask = JsonSerializer.DeserializeAsync<OrdersRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                                orders.content.AddRange(readTask.Result.content);
+                            }
+                        }
+
+                    }
                 }
                 else
                 {
@@ -181,6 +207,7 @@ namespace Admin.Controllers
                 
             }
 
+            // Customer Balances
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
@@ -214,6 +241,8 @@ namespace Admin.Controllers
                 }    
             }
 
+
+            // Tokens
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
@@ -242,6 +271,7 @@ namespace Admin.Controllers
                 }
             }
 
+            // Withdrawal addresses
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
@@ -266,7 +296,55 @@ namespace Admin.Controllers
 
                 customer.withdrawalAddresses = withdrawalAddresses;
             }
-            
+
+            // Withdrawal history
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                //HTTP GET
+                var responseTask = client.GetAsync($"fiat/withdrawal/history?customer_id={id}&page_num=0&page_size=10");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = JsonSerializer.DeserializeAsync<WithdrawalHistoryRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                    withdrawalHistory = readTask.Result;
+
+                    if (withdrawalHistory.totalPages > 1)
+                    {
+
+                        Int32 totalPages = orders.totalPages;
+                        orders.totalPages = 1;
+                        withdrawalHistory.pageNum = 1;
+
+                        for (int i = 1; i <= totalPages; i++)
+                        {
+                            responseTask = client.GetAsync($"fiat/withdrawal/history?customer_id={id}&page_num={i}&page_size=10");
+                            responseTask.Wait();
+                            result = responseTask.Result;
+
+                            if (result.IsSuccessStatusCode)
+                            {
+                                readTask = JsonSerializer.DeserializeAsync<WithdrawalHistoryRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                                withdrawalHistory.content.AddRange(readTask.Result.content);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    withdrawalHistory = new WithdrawalHistoryRootViewModel();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
+
+                customer.withdrawalHistory = withdrawalHistory;
+
+            }
+
+            // Deposit addresses
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
@@ -293,6 +371,7 @@ namespace Admin.Controllers
 
             }
 
+            // Deposit information
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
@@ -318,6 +397,55 @@ namespace Admin.Controllers
                 customer.depositInformations = depositInformations;
 
             }
+
+            // Deposit history
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                //HTTP GET
+                var responseTask = client.GetAsync($"fiat/deposit/history?customer_id={id}&page_num=0&page_size=10");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = JsonSerializer.DeserializeAsync<DepositHistoryRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                    depositHistory = readTask.Result;
+
+                    if (depositHistory.totalPages > 1)
+                    {
+
+                        Int32 totalPages = orders.totalPages;
+                        orders.totalPages = 1;
+                        depositHistory.pageNum = 1;
+
+                        for (int i = 1; i <= totalPages; i++)
+                        {
+                            responseTask = client.GetAsync($"fiat/deposit/history?customer_id={id}&page_num={i}&page_size=10");
+                            responseTask.Wait();
+                            result = responseTask.Result;
+
+                            if (result.IsSuccessStatusCode)
+                            {
+                                readTask = JsonSerializer.DeserializeAsync<DepositHistoryRootViewModel>(result.Content.ReadAsStreamAsync().Result);
+                                depositHistory.content.AddRange(readTask.Result.content);
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    depositHistory = new DepositHistoryRootViewModel();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
+
+                customer.depositHistory = depositHistory;
+
+            }
+
             return View(customer);
         }
 

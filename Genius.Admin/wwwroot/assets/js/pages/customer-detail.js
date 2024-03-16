@@ -1,13 +1,41 @@
-﻿document.getElementById("select-buyproduct").addEventListener("change", function (event) {
+﻿$(document).ready(function () {
 
+    $('#datatable-orders').DataTable();
+    $('#datatable-withdrawalAddresses').DataTable();
+    $('#datatable-depositAddresses').DataTable();
+    $('#datatable-depositHistory').DataTable();
+    $('#datatable-withdrawalHistory').DataTable();
+    $('#datatable-balances').DataTable();
     
-    getProduct(productId, "BUY");
-    //getBook(productId);
-    //getQuote("BUY", productId, product.minOrderSize);
+
+    //Buttons examples
+    var table = $('#datatable-buttons').DataTable({
+        lengthChange: false,
+        buttons: ['copy', 'excel', 'pdf', 'colvis']
+    });
+
+    table.buttons().container()
+        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+    $(".dataTables_length select").addClass('form-select form-select-sm');
 });
+
+document.getElementById("select-buyproduct").addEventListener("change", function (event) {
+    var productId = event.currentTarget[event.currentTarget.selectedIndex].text;
+    getProduct(productId, "BUY");
+});
+
+//document.getElementById("select-sellproduct").addEventListener("change", function (event) {
+//    var productId = event.currentTarget[event.currentTarget.selectedIndex].text;
+//    getProduct(productId, "SELL");
+//});
 
 document.getElementById("buy-sendOrder").addEventListener('click', function (e) {
     SendOrder("BUY");
+});
+
+document.getElementById("sell-sendOrder").addEventListener('click', function (e) {
+    SendOrder("SELL");
 });
 
 document.getElementById("buy-quantity").addEventListener("change", function (event) {
@@ -17,14 +45,23 @@ document.getElementById("buy-quantity").addEventListener("change", function (eve
     setTotalAmount("BUY", price, quantity);
 });
 
-document.getElementById("select-sellbalance").addEventListener("change", function (event) {
-    document.getElementById("sell-balance").value = event.currentTarget[event.currentTarget.selectedIndex].value;
+document.getElementById("sell-quantity").addEventListener("change", function (event) {
+    console.log(document.getElementById("sell-quantity").value);
+    var quantity = document.getElementById("sell-quantity").value;
+    var price = document.getElementById("sell-price").value;
+    setTotalAmount("SELL", price, quantity);
 });
 
-document.getElementById("select-buybalance").addEventListener("change", function (event) {
-    var productId = document.getElementById("select-buyproduct").value;
-    getBalance(event.currentTarget[event.currentTarget.selectedIndex].text);
+document.getElementById("select-sellbalance").addEventListener("change", function (event) {
+    var productId = event.currentTarget[event.currentTarget.selectedIndex].text + "_BRL";
+    document.getElementById("sell-balance").value = event.currentTarget[event.currentTarget.selectedIndex].value;
+    getProduct(productId, "SELL");
 });
+
+//document.getElementById("select-buybalance").addEventListener("change", function (event) {
+//    var productId = document.getElementById("select-buyproduct").value;
+//    getBalance(event.currentTarget[event.currentTarget.selectedIndex].text);
+//});
 
 function handle(balance) {
     console.log(balance);
@@ -263,49 +300,98 @@ function setTotalAmount(side, price, quantity) {
 function SendOrder(side) {
 
     var customer = document.getElementById("id").value;
-    var product = document.getElementById("select-buyproduct")[document.getElementById("select-buyproduct").selectedIndex].value;
-    var price = document.getElementById("buy-price").value;
-    var quantity = document.getElementById("buy-quantity").value;
-
-
     var url = "/Orders/SendOrder";
 
-    const request =
-    {
-        customerId: customer,
-        productId: product,
-        side: side,
-        price: price,
-        size: quantity,
-        externalId: generateUUID(),
-        depositMethod: "ACCOUNT"
+
+    if (side == "BUY") {
+        var product = document.getElementById("select-buyproduct")[document.getElementById("select-buyproduct").selectedIndex].value;
+        var price = document.getElementById("buy-price").value;
+        var quantity = document.getElementById("buy-quantity").value;
+
+        const request =
+        {
+            customerId: customer,
+            productId: product,
+            side: side,
+            price: price,
+            size: quantity,
+            externalId: generateUUID(),
+            depositMethod: "ACCOUNT"
+        };
+
+        const options =
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(request)
+        };
+
+        fetch(url, options)
+            .then(data => {
+                if (!data.ok) {
+                    throw Error(data.status);
+                }
+                return data.json();
+            })
+            .then(response => {
+                OnOrder(side, response);
+            })
+            .catch(e => {
+                console.log(e);
+            })
     };
 
-    const options =
-    {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request)
-    };
+    if (side == "SELL") {
+        var product = document.getElementById("select-sellbalance")[document.getElementById("select-sellbalance").selectedIndex].text + "_BRL";
+        var price = document.getElementById("sell-price").value;
+        var quantity = document.getElementById("sell-quantity").value;
 
-    fetch(url, options)
-        .then(data => {
-            if (!data.ok) {
-                throw Error(data.status);
-            }
-            return data.json();
-        })
-        .then(response => {
-            OnOrder(response);
-        })
-        .catch(e => {
-            console.log(e);
-        })
+        const request =
+        {
+            customerId: customer,
+            productId: product,
+            side: side,
+            price: price,
+            size: quantity,
+            externalId: generateUUID(),
+            depositMethod: "ACCOUNT"
+        };
+
+        const options =
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(request)
+        };
+
+        fetch(url, options)
+            .then(data => {
+                if (!data.ok) {
+                    throw Error(data.status);
+                }
+                return data.json();
+            })
+            .then(response => {
+                OnOrder(side, response);
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    };
 };
 
 
-function OnOrder(response) {
-    alert("Order sent!");
+function OnOrder(side, response) {
+    //alert("Order sent!");
+    //alert(
+    //    "OrderId: " + response.orderId +
+    //    "\r\n Status: " + response.status +
+    //    "\r\n rejectReason: " + response.rejectReason
+    //);
+
+    $('#successfullySentOrder').show('toggle');
+    
+
 };
 
 //function alert(message, type) {

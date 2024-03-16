@@ -9,6 +9,6 @@ namespace Admin.Abstractions
         Task<ApiResponse<QuoteViewModel>> AskQuote([Body(BodySerializationMethod.Serialized)] GetQuoteModel request);
 
         [Post("/orders")]
-        Task<ApiResponse<OrderResponse>> SendOrder([Body(BodySerializationMethod.Serialized)] OrderModel request);
+        Task<ApiResponse<OrderResponse>> SendOrder([Body(BodySerializationMethod.Serialized)] TradeRequest request);
     }
 }
