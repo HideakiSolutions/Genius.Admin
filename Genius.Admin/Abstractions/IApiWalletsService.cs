@@ -13,5 +13,8 @@ namespace Admin.Abstractions
 
         [Post("/wallets/withdrawal")]
         Task<ApiResponse<WithdrawalResponse>> CreateWithdrawal([Body(BodySerializationMethod.Serialized)] WithdrawalRequest request, WithdrawalQueryParams parameters);
+
+        [Post("/fiat/withdrawal")]
+        Task<ApiResponse<FiatWithdrawalResponse>> CreateFiatWithdrawal([Body(BodySerializationMethod.Serialized)] FiatWithdrawalRequest request);
     }
 }

@@ -182,5 +182,29 @@ namespace Admin.Controllers
                 return new WithdrawalResponse();
             }
         }
+
+        [HttpPost]
+        public FiatWithdrawalResponse CreateFiatWithdrawal(string customer, [FromBody] FiatWithdrawalRequest request)
+        {
+            try
+            {
+                request.customerId = customer;
+
+                var result = _apiWalletsService.CreateFiatWithdrawal(request).Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    FiatWithdrawalResponse response = result.Content;
+                    return response;
+                }
+
+                return new FiatWithdrawalResponse();
+            }
+            catch
+            {
+                return new FiatWithdrawalResponse();
+            }
+        }
+
     }
 }

@@ -38,6 +38,35 @@ namespace Admin.Controllers
             }
         }
 
+
+        public IEnumerable<Bank> GetBanks()
+        {
+            IEnumerable<BankViewModel> banks = null;
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+
+                //HTTP GET
+                var responseTask = client.GetAsync("fiat/banks");
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = JsonSerializer.DeserializeAsync<IList<BankViewModel>>(result.Content.ReadAsStreamAsync().Result);
+                    //readTask.Wait();
+                    banks = readTask.Result;
+                }
+                else
+                {
+                    banks = Enumerable.Empty<BankViewModel>();
+                    ModelState.AddModelError(string.Empty, "Erro no servidor. Contate o Administrador.");
+                }
+                return banks.Select(bank => new Bank(bank));
+            }
+        }
         // GET: BanksController/Details/5
         public ActionResult Details(int id)
         {

@@ -18,6 +18,8 @@
         .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 
     $(".dataTables_length select").addClass('form-select form-select-sm');
+
+    getBanks();
 });
 
 document.getElementById("select-buyproduct").addEventListener("change", function (event) {
@@ -25,10 +27,9 @@ document.getElementById("select-buyproduct").addEventListener("change", function
     getProduct(productId, "BUY");
 });
 
-//document.getElementById("select-sellproduct").addEventListener("change", function (event) {
-//    var productId = event.currentTarget[event.currentTarget.selectedIndex].text;
-//    getProduct(productId, "SELL");
-//});
+document.getElementById("create-fiatWithdrawal").addEventListener("click", function (event) {
+    sendFiatWithdrawal();
+});
 
 document.getElementById("buy-sendOrder").addEventListener('click', function (e) {
     SendOrder("BUY");
@@ -323,7 +324,8 @@ function SendOrder(side) {
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(request)
+            body: request,
+            data: JSON.stringify(request)
         };
 
         fetch(url, options)
@@ -382,16 +384,97 @@ function SendOrder(side) {
 
 
 function OnOrder(side, response) {
-    //alert("Order sent!");
-    //alert(
-    //    "OrderId: " + response.orderId +
-    //    "\r\n Status: " + response.status +
-    //    "\r\n rejectReason: " + response.rejectReason
-    //);
+    alert("Order sent!");
+    alert(
+        "OrderId: " + response.orderId +
+        "\r\n Status: " + response.status +
+        "\r\n rejectReason: " + response.rejectReason
+    );
 
-    $('#successfullySentOrder').show('toggle');
+    //$('#successfullySentOrder').show('toggle');
     
 
+};
+function getBanks() {
+
+    var url = "/banks/getBanks";
+
+    const options =
+    {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url, options)
+        .then(data => {
+            if (!data.ok) {
+                throw Error(data.status);
+            }
+            return data.json();
+        })
+        .then(response => {
+            OnBanks(response);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+};
+
+function OnBanks(data) {
+    var s = '<option value="-1">Select a Bank</option>';
+    for (var i = 0; i < data.length; i++) {
+        var value = { name: data[i].name, shortName: data[i].shortName , ispbCode: data[i].ispbCode };
+        s += '<option value=\'' + JSON.stringify(value) + '\'>' + data[i].shortName + '</option>';
+    }
+    $("#select-banks").html(s);  
+
+}
+function sendFiatWithdrawal() {
+
+    var customer = document.getElementById("id").value;
+    var url = "/wallets/CreateFiatWithdrawal?customer=" + customer;
+    
+    var bank = JSON.parse(document.getElementById("select-banks")[document.getElementById("select-banks").selectedIndex].value);
+    var branch = document.getElementById("fiatWithdrawal-branch").value;
+    var amount = document.getElementById("fiatWithdrawal-amount").value;
+    var account = document.getElementById("fiatWithdrawal-account").value;
+
+    const request =
+    {
+        customerId: customer,
+        externalId: generateUUID(),
+        amount: amount,
+        account:
+        {
+            bankName: bank.name,
+            isSavings: "true",
+            bankIspb: bank.ispbCode,
+            branch: branch,
+            account: account,
+            holderName: "",
+            holderDocument: ""
+        }
+    };
+
+    const options =
+    {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request)
+    };
+    fetch(url, options)
+        .then(data => {
+            if (!data.ok) {
+                throw Error(data.status);
+            }
+            return data.json();
+        })
+        .then(quote => {
+            OnQuote(quote, side);
+        })
+        .catch(e => {
+            console.log(e);
+        })
 };
 
 //function alert(message, type) {
@@ -416,4 +499,5 @@ function generateUUID() { // Public Domain/MIT
         }
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
-}
+};
+

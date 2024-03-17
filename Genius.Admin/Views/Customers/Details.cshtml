@@ -458,7 +458,8 @@
                         </p>
                     </div>
                     <!-- end TabPane -->
-                    <!-- Orders -->
+
+                    <!-- Accounts -->
                     <div class="tab-pane" id="accounts" role="tabpanel">
                         <div class="row">
                             <div class="col-2">
@@ -587,6 +588,13 @@
 
                     <!-- Withdrawal History -->
                     <div class="tab-pane" id="withdrawals" role="tabpanel">
+                        <div class="row">
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary w-100 waves-effect waves-light d-grid btn-group-1" data-bs-toggle="modal" data-bs-target="#fiatWithdrawal">
+                                    Create New Withdraw
+                                </button>
+                            </div>
+                        </div>
                         <p class="mb-0">
                             <div class="row">
                                 <div class="col-xl-12">
@@ -1779,6 +1787,45 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
                     <button type="button" class="btn btn-primary" id="create-withdrawal">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
+
+    <div class="modal fade" id="fiatWithdrawal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Fiat Withdraw</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="basicpill-documenttype-input" class="form-label">Networks</label>
+                            <select class="form-select" name="select-banks" id="select-banks">
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Branch:</label>
+                            <input type="text" class="form-control" id="fiatWithdrawal-branch">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Account:</label>
+                            <input type="text" class="form-control" id="fiatWithdrawal-account">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Amount:</label>
+                            <input type="text" class="form-control" id="fiatWithdrawal-amount">
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-primary" id="create-fiatWithdrawal">Withdraw</button>
                 </div>
             </div>
         </div>
