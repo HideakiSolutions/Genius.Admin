@@ -438,7 +438,9 @@ function sendFiatWithdrawal() {
     var branch = document.getElementById("fiatWithdrawal-branch").value;
     var amount = document.getElementById("fiatWithdrawal-amount").value;
     var account = document.getElementById("fiatWithdrawal-account").value;
-
+    var holderName = document.getElementById("fiatWithdrawal-holderName").value;
+    var holderDocument= document.getElementById("fiatWithdrawal-holderDocument").value;
+    
     const request =
     {
         customerId: customer,
@@ -447,12 +449,12 @@ function sendFiatWithdrawal() {
         account:
         {
             bankName: bank.name,
-            isSavings: "true",
+            isSavings: false,
             bankIspb: bank.ispbCode,
             branch: branch,
             account: account,
-            holderName: "",
-            holderDocument: ""
+            holderName: holderName,
+            holderDocument: holderDocument
         }
     };
 

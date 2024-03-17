@@ -3,7 +3,7 @@
     public class FiatWithdrawalAccount
     {
         public string bankName { get; set; }
-        public string isSavings { get; set; }
+        public bool isSavings { get; set; }
         public string bankIspb { get; set; }
         public string branch { get; set; }
         public string account { get; set; }
