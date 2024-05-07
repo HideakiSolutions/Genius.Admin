@@ -1,0 +1,441 @@
+﻿@model Admin.Models.PersonalCustomer
+
+@{
+    ViewBag.Title = "PersonalCustomer";
+    ViewBag.pTitle = "Forms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+
+    <!-- twitter-bootstrap-wizard css -->
+    <link rel="stylesheet" href="/assets/libs/twitter-bootstrap-wizard/prettify.css">
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Personal Customer Register</h4>
+            </div>
+            <div class="card-body">
+                <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                    <ul class="twitter-bs-wizard-nav">
+                        <li class="nav-item">
+                            <a href="#seller-details" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Customer Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#company-document" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Company Document">
+                                    <i class="bx bx-book-bookmark"></i>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#bank-detail" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Bank Details">
+                                    <i class="bx bxs-bank"></i>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- wizard-nav -->
+                    <form action="@Url.Action("CreatePersonal","Customers")" method="post">
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                        <!-- Customer data-->
+                        <div class="tab-pane" id="seller-details">
+                            <div class="text-center mb-4">
+                                <h5>Customer Details</h5>
+                                <p class="card-title-desc">Fill all information below</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="firstname" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="firstname" placeholder="Enter Your First Name" asp-for=firstName input-for="CustomerRegisterViewModel.firstName">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label for="basicpill-lastname-input" class="form-label">Last name</label>
+                                            <input type="text" class="form-control" id="lastName" placeholder="Enter Your Last Name" asp-for=lastName input-for="CustomerRegisterViewModel.lastName">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-email-input" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="Enter your email" asp-for=email input-for="CustomerRegisterViewModel.email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-birthdate-input" class="form-label">Birth Date</label>
+                                            <input type="text" class="form-control" id="birthdate" placeholder="Enter your Birth Date" asp-for=birthDate input-for="CustomerRegisterViewModel.birthDate">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-mothersname-input" class="form-label">Mothers Name</label>
+                                            <input type="text" class="form-control" id="mothersname" placeholder="Enter your Mother Name" asp-for=motherName input-for="CustomerRegisterViewModel.motherName">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="mb-3">
+                                        <label for="basicpill-documenttype-input" class="form-label">Document Type</label>
+                                            @* <input type="text" class="form-control" id="documenttype" placeholder="Enter your Document Type" asp-for=documentType input-for="CustomerRegisterViewModel.documentType"> *@
+                                            <select class="form-select" name="documentType" id="documenttype-select">
+                                                @foreach (string item in ViewBag.DocumentTypes)
+                                                {
+                                                    <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                                }
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-cpfcnpj-input" class="form-label">CPF / CNPJ</label>
+                                            <input type="text" class="form-control" id="cpfcnpj" placeholder="Enter your CPF / CNPJ." asp-for=cpfCnpj input-for="CustomerRegisterViewModel.cpfCnpj">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-occupation-input" class="form-label">PhoneNumber</label>
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder="Enter your Phone." asp-for=phoneNumber input-for="CustomerRegisterViewModel.phoneNumber">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <div class="mb-3">
+                                        <label for="basicpill-occupation-input" class="form-label">Occupation</label>
+                                            <select id="occupation-select" name="occupation" class="form-select">
+                                            @foreach (string item in ViewBag.Occupations)
+                                            {
+                                                <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                            }
+                                        </select>
+                                            <input type="hidden" id="occupation" asp-for=occupation input-for="CustomerRegisterViewModel.occupation">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-occupation-input" class="form-label">Is Pep?</label>
+                                        <select class="form-select" name="isPep" id="ispep-select">
+                                            @foreach (string item in ViewBag.PepOptions)
+                                            {
+                                                <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                            }
+                                        </select>
+                                        <input type="hidden" id="isPep" asp-for=isPep input-for="CustomerRegisterViewModel.isPep">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-occupation-input" class="form-label">Declared Income</label>
+                                        <select class="form-select" name="declaredIncome" id="declaredincome-select">
+                                            @foreach (string item in ViewBag.DeclaredIncomes)
+                                            {
+                                                <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                            }
+                                        </select>
+                                        <input type="hidden" id="declaredIncome" asp-for=declaredIncome input-for="CustomerRegisterViewModel.declaredIncome">
+                                    </div>
+                                </div>
+@*                                 <div class="col-lg-2">
+                                    <div class="mb-3">
+                                        <label for="basicpill-occupation-input" class="form-label">User Type</label>
+                                        <select class="form-select" name="userType" id="usertype-select">
+                                            @foreach (string item in ViewBag.UserTypes)
+                                            {
+                                                <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                            }
+                                        </select>
+                                        <input type="hidden" id="userType" asp-for=userType input-for="CustomerRegisterViewModel.userType">
+                                    </div>
+                                </div> *@
+                            </div>
+                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                <li class="next">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        Next <i class="bx bx-chevron-right ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- tab pane -->
+                        
+                        <div class="tab-pane" id="company-document">
+                            <div>
+                                <div class="text-center mb-4">
+                                    <h5>Customer Address</h5>
+                                    <p class="card-title-desc">Fill all information below</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            <label for="basicpill-street-input" class="form-label">Street</label>
+                                                <input type="text" id="street" class="form-control" placeholder="Enter your Street Address" asp-for=address.street input-for="CustomerRegisterViewModel.address.street">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-number-input" class="form-label">Number</label>
+                                                <input type="text" id="number" class="form-control" placeholder="Enter Street Number" asp-for=address.number input-for="CustomerRegisterViewModel.address.number">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-complement-input" class="form-label">Complement</label>
+                                                <input type="text" id="complement" class="form-control" placeholder="Enter Complement" asp-for=address.complement input-for="CustomerRegisterViewModel.address.complement">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            <label for="basicpill-district-input" class="form-label">District</label>
+                                                <input type="text" id="district" class="form-control" placeholder="Enter District" asp-for=address.district input-for="CustomerRegisterViewModel.address.district">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-city-input" class="form-label">City</label>
+                                                <input type="text" id="city" class="form-control" placeholder="Enter City" asp-for=address.city input-for="CustomerRegisterViewModel.address.city">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-state-input" class="form-label">State</label>
+                                                @* <input type="text" id="state" class="form-control" placeholder="Enter State" asp-for=address.state input-for="CustomerRegisterViewModel.address.state"> *@
+                                                <select class="form-select" name="state" id="state-select">
+                                                    @foreach (string item in ViewBag.States)
+                                                    {
+                                                        <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                                    }
+                                                </select>
+                                                <input type="hidden" id="isPep" asp-for=isPep input-for="CustomerRegisterViewModel.isPep">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                            <label for="basicpill-zip-input" class="form-label">Zip</label>
+                                                <input type="text" id="zip" class="form-control" placeholder="Enter Zip" asp-for=address.zip input-for="CustomerRegisterViewModel.address.zip">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-country-input" class="form-label">Country</label>
+                                                @* <input type="text" id="country" class="form-control" placeholder="Enter Country" asp-for=address.country input-for="CustomerRegisterViewModel.address.country"> *@
+                                                <select class="form-select" name="country" id="country-select">
+                                                    @foreach (string item in ViewBag.Countries)
+                                                    {
+                                                        <option value="@item">@Html.DisplayFor(modelItem => item)</option>
+                                                    }
+                                                </select>
+                                                <input type="hidden" id="isPep" asp-for=isPep input-for="CustomerRegisterViewModel.isPep">
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-left me-1"></i> Previous
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            Next <i class="bx bx-chevron-right ms-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- tab pane -->
+
+                        <div class="tab-pane" id="bank-detail">
+                            <div>
+                                <div class="text-center mb-4">
+                                    <h5>Documents</h5>
+                                    <p class="card-title-desc">Fill all information below</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Declared Income</label>
+                                            <input type="file" class="form-control" id="incomeproof-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="incomeproof-b64" class="form-control" placeholder="Enter Country" asp-for=declaredIncomeB64 input-for="CustomerRegisterViewModel.declaredIncomeB64">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Address</label>
+                                            <input type="file" class="form-control" id="addressproof-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="addressproof-b64" asp-for=addressB64 input-for="CustomerRegisterViewModel.addressB64">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                            <img class="img" id="incomeproof" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                            <img class="img" id="addressproof" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Document (Front)</label>
+                                            <input type="file" class="form-control" id="documentfront-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="documentfront-b64" asp-for=documentFrontB64 input-for="CustomerRegisterViewModel.documentFrontB64">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Document (Back)</label>
+                                            <input type="file" class="form-control" id="documentback-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="documentback-b64" asp-for=documentBackB64 input-for="CustomerRegisterViewModel.documentBackB64">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Selfie</label>
+                                            <input type="file" class="form-control" id="selfie-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="selfie-b64" class="form-control" placeholder="Enter Country" asp-for=selfieB64 input-for="CustomerRegisterViewModel.selfieB64">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                            <img class="img" id="documentfront" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                            <img class="img" id="documentback" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                            <img class="img" id="selfie" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-left me-1"></i> Previous
+                                        </a>
+                                    </li>
+                                    <li class="float-end">
+@*                                         <a href="javascript: void(0);" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target=".confirmModal">
+                                            Save
+                                            Changes
+                                        </a> *@
+                                            <button type="submit" class="btn btn-primary w-md" data-bs-dismiss="modal">
+                                                Save changes
+                                            </button>
+                                    </li>
+
+                                        
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- tab pane -->
+                    </div>
+                    <!-- end tab content -->
+                    </form>
+                </div>
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+@section externalhtml{
+
+    <!-- Modal -->
+    <div class="modal fade confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bx bx-check-circle display-4 text-success"></i>
+                        </div>
+                        <h5>Confirm Save Changes</h5>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-light w-md" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary w-md" data-bs-dismiss="modal">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
+}
+
+
+@section scripts{
+
+
+    <!-- twitter-bootstrap-wizard js -->
+    <script src="/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="/assets/libs/twitter-bootstrap-wizard/prettify.js"></script>
+
+    <!-- form wizard init -->
+    <script src="/assets/js/pages/form-wizard.init.js"></script>
+
+    <!-- form mask -->
+    <script src="/assets/libs/imask/imask.min.js"></script>
+
+    <!-- form mask init -->
+    <script src="/assets/js/pages/form-mask.init.js"></script>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/pages/customer-register.js"></script>
+    <script>
+        var phoneMask = IMask(document.getElementById('phoneNumber'), {
+            mask: '+55(00)0000-00000'
+        });
+
+        var phoneMask = IMask(document.getElementById('cpfcnpj'), {
+            mask: '000.000.000-00'
+        });
+        var dateMask = IMask(document.getElementById('birthdate'), {
+            // mask: Date,
+            // min: new Date(1990, 0, 1),
+            // max: new Date(2024, 0, 1),
+            // lazy: false
+            mask: '0000-00-00'
+        });
+    </script>
+}

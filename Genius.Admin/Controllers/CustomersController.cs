@@ -74,6 +74,110 @@ namespace Admin.Controllers
             return View();
         }
 
+        public ActionResult PersonalCustomer()
+        {
+            ViewBag.Occupations = new List<string>()
+            {
+                "OCP0001", "OCP0002", "OCP0003", "OCP0004", "OCP0005", "OCP0006", "OCP0007", "OCP0008", "OCP0009", "OCP0010",
+                "OCP0011", "OCP0012", "OCP0013", "OCP0014", "OCP0015", "OCP0016", "OCP0017", "OCP0018", "OCP0019", "OCP0020",
+                "OCP0021", "OCP0022", "OCP0023", "OCP0024", "OCP0025", "OCP0026", "OCP0027", "OCP0028", "OCP0029", "OCP0030",
+                "OCP0031", "OCP0032", "OCP0033", "OCP0034", "OCP0035", "OCP0036", "OCP0037", "OCP0038", "OCP0039", "OCP0040",
+                "OCP0041", "OCP0042", "OCP0043", "OCP0044", "OCP0045", "OCP0046", "OCP0047", "OCP0048", "OCP0049", "OCP0050",
+                "OCP0051", "OCP0052", "OCP0053", "OCP0054", "OCP0055", "OCP0056", "OCP0057", "OCP0058", "OCP0059", "OCP0060",
+                "OCP0061", "OCP0062", "OCP0063", "OCP0064", "OCP0065", "OCP0066", "OCP0067", "OCP0068", "OCP0069", "OCP0070",
+                "OCP0071", "OCP0072", "OCP0073", "OCP0074", "OCP0075", "OCP0076", "OCP0077", "OCP0078", "OCP0079", "OCP0080",
+                "OCP0081", "OCP0082", "OCP0083", "OCP0084", "OCP0085", "OCP0086", "OCP0087", "OCP0088", "OCP0089", "OCP0090",
+                "OCP0091", "OCP0092", "OCP0093", "OCP0094", "OCP0095", "OCP0096", "OCP0097", "OCP0098", "OCP0099", "OCP0100",
+                "OCP0101", "OCP0102", "OCP0103", "OCP0104", "OCP0105"
+            };
+
+            ViewBag.DeclaredIncomes = new List<string>()
+            {
+                "LESS_THAN_ONE_THOUSAND", "FROM_ONE_THOUSAND_TO_TWO_THOUSAND", "FROM_TWO_THOUSAND_TO_THREE_THOUSAND", "FROM_THREE_THOUSAND_TO_FIVE_THOUSAND", "FROM_FIVE_THOUSAND_TO_TEN_THOUSAND", "FROM_TEN_THOUSAND_TO_TWENTY_THOUSAND", "OVER_TWENTY_THOUSAND"
+            };
+
+            ViewBag.PepOptions = new List<string>()
+            {
+                "NONE", "SELF", "RELATED"
+            };
+
+            ViewBag.DocumentTypes = new List<string>()
+            {
+                "idcard", "driverlicense", "rne", "crnm", "dni", "passport"
+            };
+
+            ViewBag.UserTypes = new List<string>()
+            {
+                "personal", "business"
+            };
+
+            ViewBag.Countries = new List<string>()
+            {
+                "BR", "-"
+            };
+
+            ViewBag.States = new List<string>()
+            {
+                "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE"
+            };
+
+            //return RedirectToAction("Index", "Dashboard");
+
+            return View();
+        }
+
+        public ActionResult BUsinessCustomer()
+        {
+            ViewBag.Occupations = new List<string>()
+            {
+                "OCP0001", "OCP0002", "OCP0003", "OCP0004", "OCP0005", "OCP0006", "OCP0007", "OCP0008", "OCP0009", "OCP0010",
+                "OCP0011", "OCP0012", "OCP0013", "OCP0014", "OCP0015", "OCP0016", "OCP0017", "OCP0018", "OCP0019", "OCP0020",
+                "OCP0021", "OCP0022", "OCP0023", "OCP0024", "OCP0025", "OCP0026", "OCP0027", "OCP0028", "OCP0029", "OCP0030",
+                "OCP0031", "OCP0032", "OCP0033", "OCP0034", "OCP0035", "OCP0036", "OCP0037", "OCP0038", "OCP0039", "OCP0040",
+                "OCP0041", "OCP0042", "OCP0043", "OCP0044", "OCP0045", "OCP0046", "OCP0047", "OCP0048", "OCP0049", "OCP0050",
+                "OCP0051", "OCP0052", "OCP0053", "OCP0054", "OCP0055", "OCP0056", "OCP0057", "OCP0058", "OCP0059", "OCP0060",
+                "OCP0061", "OCP0062", "OCP0063", "OCP0064", "OCP0065", "OCP0066", "OCP0067", "OCP0068", "OCP0069", "OCP0070",
+                "OCP0071", "OCP0072", "OCP0073", "OCP0074", "OCP0075", "OCP0076", "OCP0077", "OCP0078", "OCP0079", "OCP0080",
+                "OCP0081", "OCP0082", "OCP0083", "OCP0084", "OCP0085", "OCP0086", "OCP0087", "OCP0088", "OCP0089", "OCP0090",
+                "OCP0091", "OCP0092", "OCP0093", "OCP0094", "OCP0095", "OCP0096", "OCP0097", "OCP0098", "OCP0099", "OCP0100",
+                "OCP0101", "OCP0102", "OCP0103", "OCP0104", "OCP0105"
+            };
+
+            ViewBag.DeclaredIncomes = new List<string>()
+            {
+                "LESS_THAN_ONE_THOUSAND", "FROM_ONE_THOUSAND_TO_TWO_THOUSAND", "FROM_TWO_THOUSAND_TO_THREE_THOUSAND", "FROM_THREE_THOUSAND_TO_FIVE_THOUSAND", "FROM_FIVE_THOUSAND_TO_TEN_THOUSAND", "FROM_TEN_THOUSAND_TO_TWENTY_THOUSAND", "OVER_TWENTY_THOUSAND"
+            };
+
+            ViewBag.PepOptions = new List<string>()
+            {
+                "NONE", "SELF", "RELATED"
+            };
+
+            ViewBag.DocumentTypes = new List<string>()
+            {
+                "idcard", "driverlicense", "rne", "crnm", "dni", "passport"
+            };
+
+            ViewBag.UserTypes = new List<string>()
+            {
+                "personal", "business"
+            };
+
+            ViewBag.Countries = new List<string>()
+            {
+                "BR", "-"
+            };
+
+            ViewBag.States = new List<string>()
+            {
+                "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE"
+            };
+
+            //return RedirectToAction("Index", "Dashboard");
+
+            return View();
+        }
+
         // GET: CustomerController
         public ActionResult Index()
         {
@@ -82,7 +186,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("customers");
@@ -138,7 +242,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"customers/{id}");
@@ -162,7 +266,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
 
@@ -211,7 +315,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"wallets/balance?customer_id={id}");
@@ -246,7 +350,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"tokens");
@@ -275,7 +379,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"wallets/withdrawal-address?customer_id={id}");
@@ -301,7 +405,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"fiat/withdrawal/history?customer_id={id}&page_num=0&page_size=10");
@@ -348,7 +452,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"wallets/deposit-address?customer_id={id}");
@@ -375,7 +479,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"fiat/deposit?customer_id={id}");
@@ -402,7 +506,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"fiat/deposit/history?customer_id={id}&page_num=0&page_size=10");
@@ -471,6 +575,36 @@ namespace Admin.Controllers
                 register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Replace("-",String.Empty).Trim();
 
                 var result = await _apiCustomersService.Register(register);
+
+                if (!result.IsSuccessStatusCode)
+                    return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("Index", "Dashboard");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // POST: CustomerController/Create
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult<dynamic>> CreatePersonal(PersonalCustomer register)
+        {
+            try
+            {
+                if (!register.documentFrontB64.IsNullOrEmpty() || !register.documentBackB64.IsNullOrEmpty())
+                {
+                    register.documentB64 = (new string[] { register.documentFrontB64, register.documentBackB64 });
+                    register.documentFrontB64 = String.Empty;
+                    register.documentBackB64 = String.Empty;
+                }
+
+                register.externalId = register.cpfCnpj.Replace(".", String.Empty).Replace("-", String.Empty).Trim();
+                register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Replace("-", String.Empty).Trim();
+
+                var result = await _apiCustomersService.RegisterPersonal(register);
 
                 if (!result.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));

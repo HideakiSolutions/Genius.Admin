@@ -14,7 +14,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("tokens");
@@ -43,7 +43,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"tokens/withdrawal-fee?network={network}&currency={currency}");

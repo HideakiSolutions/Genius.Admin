@@ -16,7 +16,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("fiat/banks");
@@ -46,7 +46,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
+                client.BaseAddress = new Uri("http://localhost:8000/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("fiat/banks");
