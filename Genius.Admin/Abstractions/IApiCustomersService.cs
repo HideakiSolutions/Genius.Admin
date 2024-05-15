@@ -10,5 +10,8 @@ namespace Admin.Abstractions
 
         [Post("/customers/personalCustomer")]
         Task<ApiResponse<CustomerViewModel>> RegisterPersonal([Body(BodySerializationMethod.Serialized)] PersonalCustomer request);
+
+        [Post("/customers/businessCustomer")]
+        Task<ApiResponse<CustomerViewModel>> RegisterBusiness([Body(BodySerializationMethod.Serialized)] BusinessCustomer request);
     }
 }

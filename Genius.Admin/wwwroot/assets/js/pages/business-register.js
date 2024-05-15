@@ -27,15 +27,7 @@ const uploadImage = async (event) => {
     textArea.innerText = base64;
 };
 
-document.getElementById("selfie-input").addEventListener("change", (e) => {
-    uploadImage(e);
-});
-
-document.getElementById("documentback-input").addEventListener("change", (e) => {
-    uploadImage(e);
-});
-
-document.getElementById("documentfront-input").addEventListener("change", (e) => {
+document.getElementById("companyStatute-input").addEventListener("change", (e) => {
     uploadImage(e);
 });
 
@@ -43,11 +35,7 @@ document.getElementById("addressproof-input").addEventListener("change", (e) => 
     uploadImage(e);
 });
 
-document.getElementById("incomeproof-input").addEventListener("change", (e) => {
-    uploadImage(e);
-});
-
-document.getElementById("companySatute-input").addEventListener("change", (e) => {
+document.getElementById("associateAddress-input").addEventListener("change", (e) => {
     uploadImage(e);
 });
 
@@ -59,16 +47,6 @@ document.getElementById("associateCompayStatute-input").addEventListener("change
     uploadImage(e);
 });
 
-
-
-
-document.getElementById("select-balance").addEventListener("change", function (event) {
-    // alertify.alert('Alert Title', 'Alert Message!', function () { alertify.success('Ok'); });
-    console.log(event);
-    document.getElementById("sell-amount").innerHTML = event;
+document.getElementById("associateDeclaredIncome-input").addEventListener("change", (e) => {
+    uploadImage(e);
 });
-
-document.getElementById("occupation-select").addEventListener("onchange", function (event) {
-    document.getElementById("occupation").value = event.target.value;
-});
-

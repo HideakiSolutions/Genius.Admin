@@ -46,7 +46,7 @@
                         </li>
                     </ul>
                     <!-- wizard-nav -->
-                    <form action="@Url.Action("Create","Customers")" method="post">
+                    <form action="@Url.Action("CreateBusiness","Customers")" method="post">
                     <div class="tab-content twitter-bs-wizard-tab-content">
                         <!-- Customer data-->
                         <div class="tab-pane" id="seller-details">
@@ -76,7 +76,7 @@
                                 <div class="col-lg-2">
                                     <div class="mb-3">
                                         <label for="basicpill-email-input" class="form-label">Business Type</label>
-                                            <input type="email" class="form-control" id="businessType" placeholder="Enter Business Type" asp-for=businessType input-for="BusinessCustomer.businessType">
+                                            <input type="text" class="form-control" id="businessType" placeholder="Enter Business Type" asp-for=businessType input-for="BusinessCustomer.businessType">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -88,7 +88,7 @@
                                     <div class="col-lg-2">
                                         <div class="mb-3">
                                             <label for="basicpill-email-input" class="form-label">Company Size</label>
-                                            <input type="email" class="form-control" id="companySize" placeholder="Enter company size" asp-for=companySize input-for="BusinessCustomer.companySize">
+                                            <input type="text" class="form-control" id="companySize" placeholder="Enter company size" asp-for=companySize input-for="BusinessCustomer.companySize">
                                         </div>
                                     </div>
                             </div>
@@ -96,7 +96,7 @@
                                 <div class="col-lg-2">
                                     <div class="mb-3">
                                         <label for="basicpill-occupation-input" class="form-label">PhoneNumber</label>
-                                        <input type="text" class="form-control" id="phoneNumber" placeholder="Enter your Phone." asp-for=phoneNumber input-for="CustomerRegisterViewModel.phoneNumber">
+                                            <input type="text" class="form-control" id="phoneNumber" placeholder="Enter your Phone." asp-for=phoneNumber input-for="BusinessCustomer.phoneNumber">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -114,7 +114,7 @@
                                 <div class="col-lg-2">
                                     <div class="mb-3">
                                         <label for="basicpill-birthdate-input" class="form-label">Declared Annual Revenue</label>
-                                            <input type="text" class="form-control" id="declaredAnnualRevenue" placeholder="Enter annual revenue" asp-for=website input-for="BusinessCustomer.declaredAnnualRevenue">
+                                        <input type="text" class="form-control" id="declaredAnnualRevenue" placeholder="Enter annual revenue" asp-for=declaredAnnualRevenue input-for="BusinessCustomer.declaredAnnualRevenue">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -144,25 +144,25 @@
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="basicpill-street-input" class="form-label">Street</label>
-                                                <input type="text" id="street" class="form-control" placeholder="Enter your Street Address" asp-for=address.street input-for="CustomerRegisterViewModel.address.street">
+                                                <input type="text" id="street" class="form-control" placeholder="Enter your Street Address" asp-for=address.street input-for="BusinessCustomer.address.street">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="mb-3">
                                             <label for="basicpill-number-input" class="form-label">Number</label>
-                                                <input type="text" id="number" class="form-control" placeholder="Enter Street Number" asp-for=address.number input-for="CustomerRegisterViewModel.address.number">
+                                                <input type="text" id="number" class="form-control" placeholder="Enter Street Number" asp-for=address.number input-for="BusinessCustomer.address.number">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="mb-3">
                                             <label for="basicpill-complement-input" class="form-label">Complement</label>
-                                                <input type="text" id="complement" class="form-control" placeholder="Enter Complement" asp-for=address.complement input-for="CustomerRegisterViewModel.address.complement">
+                                                <input type="text" id="complement" class="form-control" placeholder="Enter Complement" asp-for=address.complement input-for="BusinessCustomer.address.complement">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="basicpill-district-input" class="form-label">District</label>
-                                                <input type="text" id="district" class="form-control" placeholder="Enter District" asp-for=address.district input-for="CustomerRegisterViewModel.address.district">
+                                                <input type="text" id="district" class="form-control" placeholder="Enter District" asp-for=address.district input-for="BusinessCustomer.address.district">
                                         </div>
                                     </div>
                                 </div>
@@ -170,13 +170,13 @@
                                     <div class="col-lg-3">
                                         <div class="mb-3">
                                             <label for="basicpill-city-input" class="form-label">City</label>
-                                                <input type="text" id="city" class="form-control" placeholder="Enter City" asp-for=address.city input-for="CustomerRegisterViewModel.address.city">
+                                                <input type="text" id="city" class="form-control" placeholder="Enter City" asp-for=address.city input-for="BusinessCustomer.address.city">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="mb-3">
                                             <label for="basicpill-zip-input" class="form-label">Zip</label>
-                                                <input type="text" id="zip" class="form-control" placeholder="Enter Zip" asp-for=address.zip input-for="CustomerRegisterViewModel.address.zip">
+                                                <input type="text" id="zip" class="form-control" placeholder="Enter Zip" asp-for=address.zip input-for="BusinessCustomer.address.zip">
                                         </div>
                                     </div>
                                 </div>
@@ -202,19 +202,30 @@
                                     <h5>Documents</h5>
                                     <p class="card-title-desc">Fill all information below</p>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <div class="mb-3">
+                                                <label for="basicpill-associateIdentification-input" class="form-label">Associate CPF / CNPJ</label>
+                                                <input type="text" class="form-control" id="associateIdentification" placeholder="Enter CPF / CNPJ" asp-for=associateDocument input-for="BusinessCustomer.associateDocument">
+                                        </div>
+                                    </div>
+
+                                </div>
+
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="basicpill-namecard-input" class="form-label">Company Statute</label>
-                                            <input type="file" class="form-control" id="companyStatue-input" placeholder="Company Statute">
-                                                <input type="hidden" id="companyStatute-b64" class="form-control" placeholder="Company Statute" asp-for=declaredIncomeB64 input-for="BusinessCustomer.companyStatuteB64">
+                                            <input type="file" class="form-control" id="companyStatute-input" placeholder="Company Statute">
+                                            <input type="hidden" id="companyStatute-b64" class="form-control" placeholder="Company Statute" asp-for=companyStatute input-for="BusinessCustomer.companyStatute">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="basicpill-namecard-input" class="form-label">Address</label>
                                             <input type="file" class="form-control" id="addressproof-input" placeholder="Enter your Name on Card">
-                                            <input type="hidden" id="addressproof-b64" asp-for=addressB64 input-for="CustomerRegisterViewModel.addressB64">
+                                                <input type="hidden" id="addressproof-b64" asp-for=addressB64 input-for="BusinessCustomer.addressB64">
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +233,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <h6>Image Preview:</h6>
-                                            <img class="img" id="incomeproof" />
+                                            <img class="img" id="companyStatute" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -232,49 +243,69 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
-@*                                     <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="basicpill-namecard-input" class="form-label">Document (Front)</label>
-                                            <input type="file" class="form-control" id="documentfront-input" placeholder="Enter your Name on Card">
-                                            <input type="hidden" id="documentfront-b64" asp-for=documentFrontB64 input-for="CustomerRegisterViewModel.documentFrontB64">
+                                            <label for="basicpill-namecard-input" class="form-label">Associate Address</label>
+                                                <input type="file" class="form-control" id="associateAddress-input" placeholder="Enter your Name on Card">
+                                                <input type="hidden" id="associateAddress-b64" asp-for=associateAddressB64 input-for="BusinessCustomer.associateAddressB64">
                                         </div>
                                     </div>
-                                        <div class="col-lg-3">
-                                            <div class="mb-3">
-                                                <label for="basicpill-namecard-input" class="form-label">Document (Back)</label>
-                                                <input type="file" class="form-control" id="documentback-input" placeholder="Enter your Name on Card">
-                                                <input type="hidden" id="documentback-b64" asp-for=documentBackB64 input-for="CustomerRegisterViewModel.documentBackB64">
-                                            </div>
-                                        </div> *@
-@*                                     <div class="col-lg-6">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="basicpill-namecard-input" class="form-label">Selfie</label>
-                                            <input type="file" class="form-control" id="selfie-input" placeholder="Enter your Name on Card">
-                                            <input type="hidden" id="selfie-b64" class="form-control" placeholder="Enter Country" asp-for=selfieB64 input-for="CustomerRegisterViewModel.selfieB64">
+                                            <label for="basicpill-namecard-input" class="form-label">Associate Document</label>
+                                            <input type="file" class="form-control" id="associateDocument-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="associateDocument-b64" asp-for=associateDocumentB64 input-for="BusinessCustomer.associateDocumentB64">
                                         </div>
-                                    </div> *@
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
                                             <h6>Image Preview:</h6>
-                                            <img class="img" id="documentfront" />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <h6>Image Preview:</h6>
-                                            <img class="img" id="documentback" />
+                                            <img class="img" id="associateAddress" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <h6>Image Preview:</h6>
-                                            <img class="img" id="selfie" />
+                                            <img class="img" id="associateDocument" />
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Associate Company Statute</label>
+                                            <input type="file" class="form-control" id="associateCompayStatute-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="associateCompayStatute-b64" asp-for=associateCompayStatuteB64 input-for="BusinessCustomer.associateCompayStatuteB64">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input" class="form-label">Associate Declared Income</label>
+                                            <input type="file" class="form-control" id="associateDeclaredIncome-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="associateDeclaredIncome-b64" placeholder="Enter Country" asp-for=associateDeclaredIncome input-for="BusinessCustomer.associateDeclaredIncome">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                                <img class="img" id="associateCompayStatute" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <h6>Image Preview:</h6>
+                                            <img class="img" id="associateDeclaredIncome" />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <ul class="pager wizard twitter-bs-wizard-pager-link">
                                     <li class="previous">
                                         <a href="javascript: void(0);" class="btn btn-primary">
@@ -357,7 +388,7 @@
     <script src="/assets/js/pages/form-mask.init.js"></script>
 
     <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/pages/customer-register.js"></script>
+    <script src="/assets/js/pages/business-register.js"></script>
     <script>
         var phoneMask = IMask(document.getElementById('phoneNumber'), {
             mask: '+55(00)0000-00000'

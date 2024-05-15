@@ -186,7 +186,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync("customers");
@@ -242,7 +242,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"customers/{id}");
@@ -266,7 +266,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
 
@@ -315,7 +315,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"wallets/balance?customer_id={id}");
@@ -350,7 +350,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"tokens");
@@ -379,7 +379,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"wallets/withdrawal-address?customer_id={id}");
@@ -405,7 +405,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"fiat/withdrawal/history?customer_id={id}&page_num=0&page_size=10");
@@ -452,7 +452,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"wallets/deposit-address?customer_id={id}");
@@ -479,7 +479,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"fiat/deposit?customer_id={id}");
@@ -506,7 +506,7 @@ namespace Admin.Controllers
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Store.AccessToken);
-                client.BaseAddress = new Uri("http://localhost:8000/");
+                client.BaseAddress = new Uri("https://sandbox.geniusbit.io/");
 
                 //HTTP GET
                 var responseTask = client.GetAsync($"fiat/deposit/history?customer_id={id}&page_num=0&page_size=10");
@@ -605,6 +605,41 @@ namespace Admin.Controllers
                 register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Replace("-", String.Empty).Trim();
 
                 var result = await _apiCustomersService.RegisterPersonal(register);
+
+                if (!result.IsSuccessStatusCode)
+                    return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("Index", "Dashboard");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // POST: CustomerController/Create
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult<dynamic>> CreateBusiness(BusinessCustomer register)
+        {
+            try
+            {
+                if (!register.companyStatute.IsNullOrEmpty())
+                {
+                    register.companyStatuteB64 = [register.companyStatute];
+                }
+
+                if (!register.associateDocumentB64.IsNullOrEmpty() || !register.associateCompayStatuteB64.IsNullOrEmpty() || register.associateAddressB64.IsNullOrEmpty())
+                {
+                    CompanyAssociate companyAssociate = new CompanyAssociate() { cpfCnpj = register.associateDocument, documentB64 = [register.associateDocumentB64], companyStatuteB64 = [register.associateCompayStatuteB64], declaredIncomeB64 = register.associateDeclaredIncome, addressB64 = [register.associateAddressB64] };
+
+                    register.companyAssociates = [companyAssociate];
+                }
+
+                register.externalId = register.cpfCnpj.Replace(".", String.Empty).Replace("-", String.Empty).Replace("/", String.Empty).Trim();
+                register.phoneNumber = register.phoneNumber.Replace("(", String.Empty).Replace(")", String.Empty).Replace("-", String.Empty).Trim();
+
+                var result = await _apiCustomersService.RegisterBusiness(register);
 
                 if (!result.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
