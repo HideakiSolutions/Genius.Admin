@@ -23,6 +23,7 @@
         public string associateCompayStatuteB64 { get; set; }
         public string associateAddressB64 { get; set; }
         public string associateDeclaredIncome { get; set; }
+        public string dateOfIncorporation{ get; set; }
         public string externalId { get; set; }
     }
 
