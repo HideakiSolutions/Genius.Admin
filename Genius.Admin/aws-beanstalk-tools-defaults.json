@@ -1,0 +1,20 @@
+
+{
+    "region" : "sa-east-1",
+    "configuration" : "Release",
+    "framework"     : "net8.0",
+    "self-contained" : true,
+    "application"    : "genius-admin",
+    "environment"    : "genius-admin-mvp",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.7.2 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "genius-admin-mvp",
+    "instance-type"        : "t2.micro",
+    "key-pair"             : "geniusadmin",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "aws-elasticbeanstalk-service-role",
+    "proxy-server"         : "none"
+}
