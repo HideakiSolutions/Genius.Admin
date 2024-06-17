@@ -15,14 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Pattern (Phone)
     var phoneMask = IMask(document.getElementById('phone-mask'), {
-        mask: '+{7}(000)000-00-00'
+        mask: '+00(000)0000-0000'
     });
 
-    var phoneMask = IMask(document.getElementById('phoneNumber'), {
-        mask: '+55(00)0000-00000'
-    });
-
-    var phoneMask = IMask(document.getElementById('cpfcnpj'), {
+    var cpfMask = IMask(document.getElementById('cpfcnpj'), {
         mask: '000.000.000-00'
     });
 

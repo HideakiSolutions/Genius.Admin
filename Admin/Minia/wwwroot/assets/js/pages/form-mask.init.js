@@ -18,9 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
         mask: '+{7}(000)000-00-00'
     });
 
-    var phoneMask = IMask(document.getElementById('phoneNumber'), {
-        mask: '+55(00)0000-00000'
-    });
 
     // Number mask
     var numberMask = IMask(document.getElementById('number-mask'), {

@@ -629,9 +629,9 @@ namespace Admin.Controllers
                     register.companyStatuteB64 = [register.companyStatute];
                 }
 
-                if (!register.associateDocumentB64.IsNullOrEmpty() || !register.associateCompayStatuteB64.IsNullOrEmpty() || register.associateAddressB64.IsNullOrEmpty())
+                if (!register.associateDocumentB64.IsNullOrEmpty() || !register.associateCompanyStatuteB64.IsNullOrEmpty() || register.associateAddressB64.IsNullOrEmpty())
                 {
-                    CompanyAssociate companyAssociate = new CompanyAssociate() { cpfCnpj = register.associateDocument, documentB64 = [register.associateDocumentB64], companyStatuteB64 = [register.associateCompayStatuteB64], declaredIncomeB64 = register.associateDeclaredIncome, addressB64 = [register.associateAddressB64] };
+                    CompanyAssociate companyAssociate = new CompanyAssociate() { cpfCnpj = register.associateDocument, documentB64 = [register.associateDocumentB64], companyStatuteB64 = [register.associateCompanyStatuteB64], declaredIncomeB64 = register.associateDeclaredIncome, addressB64 = [register.associateAddressB64] };
 
                     register.companyAssociates = [companyAssociate];
                 }

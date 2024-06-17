@@ -43,7 +43,7 @@ document.getElementById("associateDocument-input").addEventListener("change", (e
     uploadImage(e);
 });
 
-document.getElementById("associateCompayStatute-input").addEventListener("change", (e) => {
+document.getElementById("associateCompanyStatute-input").addEventListener("change", (e) => {
     uploadImage(e);
 });
 

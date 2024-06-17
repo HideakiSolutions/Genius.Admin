@@ -20,7 +20,7 @@
         public CompanyAssociate[] companyAssociates { get; set; }
         public string associateDocument { get; set; }
         public string associateDocumentB64 { get; set; }
-        public string associateCompayStatuteB64 { get; set; }
+        public string associateCompanyStatuteB64 { get; set; }
         public string associateAddressB64 { get; set; }
         public string associateDeclaredIncome { get; set; }
         public string dateOfIncorporation{ get; set; }

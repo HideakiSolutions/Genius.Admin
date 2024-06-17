@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\assets\js\pages\authentication.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Views\Trade\" />
     <Folder Include="wwwroot\assets\libs\alertifyjs\src\" />
     <Folder Include="wwwroot\assets\libs\chart.js\controllers\" />

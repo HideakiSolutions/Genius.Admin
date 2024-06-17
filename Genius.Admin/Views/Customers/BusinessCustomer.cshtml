@@ -231,7 +231,7 @@
                                         <div class="mb-3">
                                             <label for="basicpill-namecard-input" class="form-label">Address</label>
                                             <input type="file" class="form-control" id="addressproof-input" placeholder="Enter your Name on Card">
-                                                <input type="hidden" id="addressproof-b64" asp-for=addressB64 input-for="BusinessCustomer.addressB64">
+                                            <input type="hidden" id="addressproof-b64" asp-for=addressB64 input-for="BusinessCustomer.addressB64">
                                         </div>
                                     </div>
                                 </div>
@@ -284,8 +284,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="basicpill-namecard-input" class="form-label">Associate Company Statute</label>
-                                            <input type="file" class="form-control" id="associateCompayStatute-input" placeholder="Enter your Name on Card">
-                                            <input type="hidden" id="associateCompayStatute-b64" asp-for=associateCompayStatuteB64 input-for="BusinessCustomer.associateCompayStatuteB64">
+                                            <input type="file" class="form-control" id="associateCompanyStatute-input" placeholder="Enter your Name on Card">
+                                            <input type="hidden" id="associateCompanyStatute-b64" asp-for=associateCompanyStatuteB64 input-for="BusinessCustomer.associateCompanyStatuteB64">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -301,7 +301,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <h6>Image Preview:</h6>
-                                                <img class="img" id="associateCompayStatute" />
+                                                <img class="img" id="associateCompanyStatute" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -397,7 +397,7 @@
     <script src="/assets/js/pages/business-register.js"></script>
     <script>
         var phoneMask = IMask(document.getElementById('phoneNumber'), {
-            mask: '+55(00)0000-00000'
+            mask: '+00(000)0000-00000'
         });
 
         var phoneMask = IMask(document.getElementById('cpfcnpj'), {
